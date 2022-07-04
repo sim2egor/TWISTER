@@ -146,7 +146,7 @@ class Parametrs():
 Param = Parametrs()  # Global parametrs of all system
 
 
-def worker(num):
+def worker(num,arr):
     while True:
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.NumberStep, num)
@@ -161,7 +161,7 @@ def worker(num):
 
 
 class Handler:
-
+    global log
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
