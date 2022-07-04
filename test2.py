@@ -212,7 +212,7 @@ class Handler:
 
     def EventStop(self, *args):
         PR.Stop_(1)
-        Param.Stop = True
+        # Param.Stop = True
         if self.process.is_alive():
             self.process.terminate()
         Param.CurrP = self.num.value
