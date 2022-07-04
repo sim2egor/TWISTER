@@ -152,7 +152,7 @@ def worker(num,arr):
             s_motor.goto_r(Param.NumberStep, num)
             Param.CurrP = Param.REP
         else:
-            s_motor.goto_l(Param.NumberStep)
+            s_motor.goto_l(Param.NumberStep, num)
             Param.CurrP = Param.LEP
         if Param.Stop == True:
             Param.Stop = False
