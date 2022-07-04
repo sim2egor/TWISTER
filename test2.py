@@ -1,4 +1,3 @@
-from gi.repository import Gtk
 import PWM_Stepper_Motor_01 as STP
 import RPi.GPIO as GPIO
 import datetime
@@ -8,9 +7,12 @@ import argparse
 import signal
 import os
 import sys
+import multiprocessing
+import time
 
 import gi
 gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 
 # class Handler:
@@ -143,8 +145,23 @@ class Parametrs():
 
 Param = Parametrs()  # Global parametrs of all system
 
+def worker ():
+    while True:
+            if Param.CurrP == Param.LEP:
+                s_motor.goto_r(Param.NumberStep)
+                Param.CurrP = Param.REP
+            else:
+                s_motor.goto_l(Param.NumberStep)
+                Param.CurrP = Param.LEP
+            if Param.Stop == True:
+                Param.Stop = False
+                PR.Stop_(1)
+                break
+
 
 class Handler:
+
+    self.process= None
 
     def EventToLeft(self, *args):
         s_motor.forward()
@@ -179,20 +196,26 @@ class Handler:
 
     def EventStart(self, *args):
         PR.Start_(100,1,0)
-        while True:
-            if Param.CurrP == Param.LEP:
-                s_motor.goto_r(Param.NumberStep)
-                Param.CurrP = Param.REP
-            else:
-                s_motor.goto_l(Param.NumberStep)
-                Param.CurrP = Param.LEP
-            if Param.Stop == True:
-                Param.Stop = False
-                PR.Stop_(1)
-                break
+
+        # while True:
+        #     if Param.CurrP == Param.LEP:
+        #         s_motor.goto_r(Param.NumberStep)
+        #         Param.CurrP = Param.REP
+        #     else:
+        #         s_motor.goto_l(Param.NumberStep)
+        #         Param.CurrP = Param.LEP
+        #     if Param.Stop == True:
+        #         Param.Stop = False
+        #         PR.Stop_(1)
+        #         break
+        self.process=multiprocessing(target=worker, name = "Pr1")
+        self.process.start()
 
     def EventStop(self, *args):
         Param.Stop = True
+        if (self.process.is_alive()):
+            self.process.terminate()
+            PR.Stop_()
         pass
 
     def Switch_set(self, *args):
