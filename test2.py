@@ -158,11 +158,13 @@ def worker ():
                 PR.Stop_(1)
                 break
 
-process=multiprocessing.Process(target=worker, name = "Pr1")
 
 class Handler:
 
-    
+    def __init__(self) -> None:
+        self.process=multiprocessing.Process(target=worker, name = "Pr1")
+
+        pass    
 
     def EventToLeft(self, *args):
         s_motor.forward()
@@ -209,15 +211,15 @@ class Handler:
         #         Param.Stop = False
         #         PR.Stop_(1)
         #         break
-        process.close()
-        process=multiprocessing.Process(target=worker, name = "Pr1")
-        process.start()
+        self.process.close()
+        self.process=multiprocessing.Process(target=worker, name = "Pr1")
+        self.process.start()
 
     def EventStop(self, *args):
         PR.Stop_()
         Param.Stop = True
-        if (process.is_alive()):
-            process.terminate()
+        if (self.process.is_alive()):
+            self.process.terminate()
         pass
 
     def Switch_set(self, *args):
