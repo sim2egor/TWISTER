@@ -202,7 +202,6 @@ class Handler:
 
     def EventStart(self, *args):
         PR.Start_(100, 1, 0)
-        Param.Stop=False
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
         self.process.close()
