@@ -16,8 +16,8 @@ class STMotor:
     cyclecount=0
     cycles = 0
     def __init__(self) -> None:
-        self.PUL = 5  # Stepper Drive Pulses
-        self.DIR = 6  # Controller Direction Bit (High for Controller default / LOW to Force a Direction Change).
+        self.PUL = 17  # Stepper Drive Pulses
+        self.DIR = 27  # Controller Direction Bit (High for Controller default / LOW to Force a Direction Change).
         self.ENA = 16  # Controller Enable Bit (High to Enable / LOW to Disable).
         # DIRI = 14  # Status Indicator LED - Direction
         # ENAI = 15  # Status indicator LED - Controller Enable
