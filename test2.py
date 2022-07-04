@@ -154,10 +154,10 @@ def worker(num,arr):
         else:
             s_motor.goto_l(Param.NumberStep, num)
             Param.CurrP = Param.LEP
-        if Param.Stop == True:
-            Param.Stop = False
-            PR.Stop_(1)
-            break
+        # if Param.Stop == True:
+        #     Param.Stop = False
+        #     PR.Stop_(1)
+        #     break
 
 
 class Handler:
