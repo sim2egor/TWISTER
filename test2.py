@@ -217,6 +217,7 @@ class Handler:
             self.process.terminate()
         Param.CurrP = self.num.value
         print("currp= {}".format(self.num.value))
+        log.info("Kill process")
         pass
 
     def EventPStep(self, *args):
