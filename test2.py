@@ -144,7 +144,6 @@ class Parametrs():
 
 
 Param = Parametrs()  # Global parametrs of all system
-process= None
 
 def worker ():
     while True:
@@ -159,6 +158,7 @@ def worker ():
                 PR.Stop_(1)
                 break
 
+process=multiprocessing(target=worker, name = "Pr1")
 
 class Handler:
 
@@ -209,14 +209,15 @@ class Handler:
         #         Param.Stop = False
         #         PR.Stop_(1)
         #         break
+        process.close()
         process=multiprocessing(target=worker, name = "Pr1")
         process.start()
 
     def EventStop(self, *args):
+        PR.Stop_()
         Param.Stop = True
         if (process.is_alive()):
             process.terminate()
-            PR.Stop_()
         pass
 
     def Switch_set(self, *args):
