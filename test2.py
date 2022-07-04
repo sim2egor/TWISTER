@@ -70,7 +70,7 @@ def init_logger(file_dir='./logs/',
 
 
 builder = Gtk.Builder()
-builder.add_from_file("gui3.glade")
+builder.add_from_file("gui4.glade")
 
 window = builder.get_object("win1")
 
@@ -88,7 +88,6 @@ LabelRPM_UP_BIG = builder.get_object("LabelRPM_UP_BIG")
 LabelRPM_DOWN_BIG = builder.get_object("LabelRPM_DOWN_BIG")
 LabelStep_ = builder.get_object("LabelStep_")
 LabelSpeed_ = builder.get_object("LabelSpeed_")
-LabelRevers = builder.get_object("LabelRevers")
 LabelDoor = builder.get_object("LabelDoor")
 
 ButtonToLeft = builder.get_object("toLeft")
@@ -115,7 +114,6 @@ RPM_DOWN_S = "Скорость\nпланшайбы\n(об/мин)"
 TIME_S = "Время\nc момента\n начала свивки"
 CONNECT_ON_S = "Соединение: ON"
 CONNECT_OFF_S = "Соединение: OFF"
-REVERS_STR = "Реверс | Прямой"
 DOOR_OPEN_S = "Кожух: Открыт"
 DOOR_CLOSED_S = "Кожух: Закрыт"
 
