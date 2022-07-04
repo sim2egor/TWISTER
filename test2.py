@@ -144,6 +144,7 @@ class Parametrs():
 
 
 Param = Parametrs()  # Global parametrs of all system
+process= None
 
 def worker ():
     while True:
@@ -161,7 +162,7 @@ def worker ():
 
 class Handler:
 
-    self.process= None
+    
 
     def EventToLeft(self, *args):
         s_motor.forward()
@@ -208,13 +209,13 @@ class Handler:
         #         Param.Stop = False
         #         PR.Stop_(1)
         #         break
-        self.process=multiprocessing(target=worker, name = "Pr1")
-        self.process.start()
+        process=multiprocessing(target=worker, name = "Pr1")
+        process.start()
 
     def EventStop(self, *args):
         Param.Stop = True
-        if (self.process.is_alive()):
-            self.process.terminate()
+        if (process.is_alive()):
+            process.terminate()
             PR.Stop_()
         pass
 
