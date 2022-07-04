@@ -158,7 +158,7 @@ def worker ():
                 PR.Stop_(1)
                 break
 
-process=multiprocessing(target=worker, name = "Pr1")
+process=multiprocessing.Process(target=worker, name = "Pr1")
 
 class Handler:
 
@@ -210,7 +210,7 @@ class Handler:
         #         PR.Stop_(1)
         #         break
         process.close()
-        process=multiprocessing(target=worker, name = "Pr1")
+        process=multiprocessing.Process(target=worker, name = "Pr1")
         process.start()
 
     def EventStop(self, *args):
