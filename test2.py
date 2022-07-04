@@ -13,9 +13,9 @@ import time
 from filehelper import FileHelper
 
 import gi
+
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-
 
 # class Handler:
 #     def onDestroy(self, *args):
@@ -50,7 +50,7 @@ def add_command_option():
 
 def init_logger(file_dir='./logs/',
                 file_name='main.log',
-                log_level='WARNING',
+                log_level='DEBUG',
                 log_name='main',
                 log_format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'):
     try:
@@ -145,26 +145,28 @@ class Parametrs():
 
 Param = Parametrs()  # Global parametrs of all system
 
-def worker (num):
+
+def worker(num):
     while True:
-            if Param.CurrP == Param.LEP:
-                s_motor.goto_r(Param.NumberStep,num)
-                Param.CurrP = Param.REP
-            else:
-                s_motor.goto_l(Param.NumberStep)
-                Param.CurrP = Param.LEP
-            if Param.Stop == True:
-                Param.Stop = False
-                PR.Stop_(1)
-                break
+        if Param.CurrP == Param.LEP:
+            s_motor.goto_r(Param.NumberStep, num)
+            Param.CurrP = Param.REP
+        else:
+            s_motor.goto_l(Param.NumberStep)
+            Param.CurrP = Param.LEP
+        if Param.Stop == True:
+            Param.Stop = False
+            PR.Stop_(1)
+            break
 
 
 class Handler:
 
     def __init__(self) -> None:
-        self.process=multiprocessing.Process(target=worker, name = "Pr1")
+        self.process = multiprocessing.Process(target=worker, name="Pr1")
+        self.num = multiprocessing.Value('i', 0)
 
-        pass    
+        pass
 
     def EventToLeft(self, *args):
         s_motor.forward()
@@ -178,6 +180,7 @@ class Handler:
     def EventLeftEndPoint(self, *args):
         Param.NumberStep = 0
         Param.LEP = 0
+        Param.CurrP= Param.LEP
         pass
 
     def EventRightEndPoint(self, *args):
@@ -198,32 +201,22 @@ class Handler:
         pass
 
     def EventStart(self, *args):
-        PR.Start_(100,1,0)
-
-        # while True:
-        #     if Param.CurrP == Param.LEP:
-        #         s_motor.goto_r(Param.NumberStep)
-        #         Param.CurrP = Param.REP
-        #     else:
-        #         s_motor.goto_l(Param.NumberStep)
-        #         Param.CurrP = Param.LEP
-        #     if Param.Stop == True:
-        #         Param.Stop = False
-        #         PR.Stop_(1)
-        #         break
-        num = multiprocessing.Value('i',Param.CurrP)
+        PR.Start_(100, 1, 0)
+        self.num.value = Param.CurrP
         self.process.close()
-        self.process=multiprocessing.Process(target=worker, name = "Pr1",args=(num))
+        self.process = multiprocessing.Process(target=worker, name="Pr1", args=num)
         self.process.start()
+
         print(process._WorkItem())
 
     def EventStop(self, *args):
         PR.Stop_(1)
         Param.Stop = True
-        if (self.process.is_alive()):
+        if self.process.is_alive():
             self.process.terminate()
+        Param.CurrP = self.num.value
+        print("currp= {}".format(self.num.value))
         pass
-
 
     def EventPStep(self, *args):
         pass
@@ -235,15 +228,15 @@ builder.connect_signals(Handler())
 
 # LabelRevers.set_markup(FONT_STYLE_3 % REVERS_STR)
 
-#LabelSpeed.set_label(RPM_SET_S + str(Param.speed))
+# LabelSpeed.set_label(RPM_SET_S + str(Param.speed))
 # LabelSpeed.set_markup(FONT_STYLE_1 % RPM_SET_S)
 # LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
-#LabelStep.set_label(STEP_S + str(Param.step))
+# LabelStep.set_label(STEP_S + str(Param.step))
 # LabelStep.set_markup(FONT_STYLE_1 % STEP_S)
 # LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
-#LabelRPM_UP.set_label(RPM_UP_S + str(0))
+# LabelRPM_UP.set_label(RPM_UP_S + str(0))
 # LabelRPM_UP.set_markup(FONT_STYLE_1 % RPM_UP_S)
 # LabelRPM_UP_BIG.set_markup(FONT_STYLE_2 % str(0))
 
@@ -288,6 +281,7 @@ Gtk.main()
 def receive_signal(signum, stack):
     quit_app('Received system signal: %s' % signal.Signals(signum).name)
 
+
 def quit_app(error=None):
     global log
     if 'log' not in globals():
@@ -304,6 +298,7 @@ def quit_app(error=None):
 
 
 if __name__ == "__main__":
+    num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
     # Change working directory to project directory
     if getattr(sys, 'frozen', False):
