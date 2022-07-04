@@ -1,3 +1,4 @@
+from concurrent.futures import process
 import PWM_Stepper_Motor_01 as STP
 import RPi.GPIO as GPIO
 import datetime
@@ -211,12 +212,13 @@ class Handler:
         #         Param.Stop = False
         #         PR.Stop_(1)
         #         break
-        self.process.close()
+        # self.process.close()
         self.process=multiprocessing.Process(target=worker, name = "Pr1")
         self.process.start()
+        print(process._WorkItem())
 
     def EventStop(self, *args):
-        PR.Stop_()
+        PR.Stop_(1)
         Param.Stop = True
         if (self.process.is_alive()):
             self.process.terminate()

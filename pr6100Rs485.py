@@ -31,17 +31,19 @@ def Start_(Freq, slaveAdr, revers=0):
     Freq = int(Freq*100)
     if (Freq >=0 and Freq <=40000):
         comand = 0x1E
-        if (revers == 1) : comand = 0x2E
+        if (revers == 1) : 
+            comand = 0x2E
         
         if (slaveAdr == 1):
             instrument1.write_registers(0x2000, [comand,Freq])
             return 1
         else:
             if(slaveAdr == 2):
-                instrument2.write_registers(0x2000, [comand,Freq])
+                # instrument2.write_registers(0x2000, [comand,Freq])
                 return 1
             
-    else: return 0 #ERROR_Code Freq out the renge 0..400
+    else: 
+        return 0 #ERROR_Code Freq out the renge 0..400
 
 
 def Stop_(slaveAdr):
@@ -51,7 +53,7 @@ def Stop_(slaveAdr):
         return 1
     else:
         if (slaveAdr == 2):
-            instrument2.write_registers(0x2000, [0x01,0x00])
+            # instrument2.write_registers(0x2000, [0x01,0x00])
             return 1
         
 def getFreq(slaveAdr):
@@ -60,7 +62,7 @@ def getFreq(slaveAdr):
         instrument1.read_register(0x0D09)/100
         return 1
     elif(slaveAdr == 2):
-        instrument2.read_register(0x0D09)/100
+        # instrument2.read_register(0x0D09)/100
         return 1
     
         
