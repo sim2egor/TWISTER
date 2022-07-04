@@ -10,7 +10,7 @@ import os
 import sys
 import multiprocessing
 import time
-from filehelper import FileHelper
+# from filehelper import FileHelper
 
 import gi
 
@@ -203,8 +203,9 @@ class Handler:
     def EventStart(self, *args):
         PR.Start_(100, 1, 0)
         self.num.value = Param.CurrP
+        arr = multiprocessing.Array('i', range(10))
         self.process.close()
-        self.process = multiprocessing.Process(target=worker, name="Pr1", args=num)
+        self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
         self.process.start()
 
         print(process._WorkItem())
@@ -352,7 +353,7 @@ if __name__ == "__main__":
         config_path = args.configpath
         config = {}
         try:
-            config = FileHelper.read_json_file(config_path)
+            # config = FileHelper.read_json_file(config_path)
             log.debug("Config file successfully read")
         except Exception as e:
             quit_app("Unable to read config file: %s" % e)
