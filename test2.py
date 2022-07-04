@@ -207,7 +207,7 @@ class Handler:
         self.process.close()
         self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
         self.process.start()
-
+        log.info("Process started %i",self.process.pid)
         print(process._WorkItem())
 
     def EventStop(self, *args):
