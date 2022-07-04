@@ -10,6 +10,7 @@ import os
 import sys
 import multiprocessing
 import time
+from filehelper import FileHelper
 
 import gi
 gi.require_version("Gtk", "3.0")
@@ -223,8 +224,6 @@ class Handler:
             self.process.terminate()
         pass
 
-    def Switch_set(self, *args):
-        pass
 
     def EventPStep(self, *args):
         pass
@@ -284,6 +283,25 @@ window.show_all()
 # GLib.timeout_add(100,buttonIterupt)
 
 Gtk.main()
+
+
+def receive_signal(signum, stack):
+    quit_app('Received system signal: %s' % signal.Signals(signum).name)
+
+def quit_app(error=None):
+    global log
+    if 'log' not in globals():
+        log = logging.getLogger("main")
+        log.warning("Logger not found. Enabling standard logger")
+    if error:
+        log.critical(error)
+    try:
+        os.remove(lock_file)
+    except Exception as exc:
+        log.error("Unable to remove lock file: %s" % exc)
+    log.info('Application stopped')
+    sys.exit()
+
 
 if __name__ == "__main__":
     lock_file = "/tmp/app_lock.lock"
