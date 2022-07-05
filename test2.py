@@ -176,7 +176,8 @@ class Handler:
         self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
         self.process.start()
         log.info("Process started %i",self.process.pid)
-        log.info('Process WorkItem %s',self.process._WorkItem())
+        log.info('Process WorkItem %s',self.process.name)
+        log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
     def EventStop(self, *args):
         #--- PR.Stop_(1)
