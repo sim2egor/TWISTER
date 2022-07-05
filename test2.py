@@ -248,6 +248,9 @@ if __name__ == "__main__":
     ButtonLKT = builder.get_object("leftEndPoint")
     ButtonRKT = builder.get_object("rightEndPoint")
 
+    LabelLP = builder.get_object("LabelLP")
+    LabelRP = builder.get_object("LabelRP")
+    LabelCurPosition = builder.get_object("LabelCurPosition")
 
     s_motor = stp.STMotor()
     num = multiprocessing.Value('d', 0.0)
