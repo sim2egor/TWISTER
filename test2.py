@@ -1,5 +1,5 @@
-from concurrent.futures import process
-import PWM_Stepper_Motor_01 as STP
+# from concurrent.futures import process
+import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
 import pr6100Rs485 as PR
@@ -10,11 +10,12 @@ import os
 import sys
 import multiprocessing
 import time
+# from filehelper import FileHelper
 
 import gi
+
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-
 
 # class Handler:
 #     def onDestroy(self, *args):
@@ -23,7 +24,7 @@ from gi.repository import Gtk
 #     def onButtonPressed(self, button):
 #         print("Hello World!")
 
-s_motor = STP.STMotor()
+
 
 
 def add_command_option():
@@ -49,7 +50,7 @@ def add_command_option():
 
 def init_logger(file_dir='./logs/',
                 file_name='main.log',
-                log_level='WARNING',
+                log_level='DEBUG',
                 log_name='main',
                 log_format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'):
     try:
@@ -67,33 +68,6 @@ def init_logger(file_dir='./logs/',
         return logger
     except Exception as error:
         raise Exception("Unable to initialize logger: %s" % error)
-
-
-builder = Gtk.Builder()
-builder.add_from_file("gui4.glade")
-
-window = builder.get_object("win1")
-
-LabelStep = builder.get_object("LabelStep")
-LabelSpeed = builder.get_object("LabelSpeed")
-LabelTime = builder.get_object("LabelTime")
-LabelRPM_UP = builder.get_object("LabelRPM_UP")
-LabelRPM_Down = builder.get_object("LabelRPM_Down")
-Switch1 = builder.get_object("Switch1")
-LabelConnect = builder.get_object("LabelConnect")
-ButtonStart = builder.get_object("ButtonStart")
-ButtonStop = builder.get_object("ButtonStop")
-LabelTimeBIG = builder.get_object("LabelTimeBIG")
-LabelRPM_UP_BIG = builder.get_object("LabelRPM_UP_BIG")
-LabelRPM_DOWN_BIG = builder.get_object("LabelRPM_DOWN_BIG")
-LabelStep_ = builder.get_object("LabelStep_")
-LabelSpeed_ = builder.get_object("LabelSpeed_")
-LabelDoor = builder.get_object("LabelDoor")
-
-ButtonToLeft = builder.get_object("toLeft")
-ButtonToRight = builder.get_object("toRight")
-ButtonLKT = builder.get_object("leftEndPoint")
-ButtonRKT = builder.get_object("rightEndPoint")
 
 # Const
 SHAG_STEP = 1
@@ -142,28 +116,29 @@ class Parametrs():
         self.Stop = False
 
 
-Param = Parametrs()  # Global parametrs of all system
 
-def worker (num):
+
+def worker(num,arr):
     while True:
-            if Param.CurrP == Param.LEP:
-                s_motor.goto_r(Param.NumberStep,num)
-                Param.CurrP = Param.REP
-            else:
-                s_motor.goto_l(Param.NumberStep)
-                Param.CurrP = Param.LEP
-            if Param.Stop == True:
-                Param.Stop = False
-                PR.Stop_(1)
-                break
+        if Param.CurrP == Param.LEP:
+            s_motor.goto_r(Param.NumberStep, num)
+            Param.CurrP = Param.REP
+        else:
+            s_motor.goto_l(Param.NumberStep, num)
+            Param.CurrP = Param.LEP
+        # if Param.Stop == True:
+        #     Param.Stop = False
+        #     PR.Stop_(1)
+        #     break
 
 
 class Handler:
-
+    global log
     def __init__(self) -> None:
-        self.process=multiprocessing.Process(target=worker, name = "Pr1")
+        self.process = multiprocessing.Process(target=worker, name="Pr1")
+        self.num = multiprocessing.Value('i', 0)
 
-        pass    
+        pass
 
     def EventToLeft(self, *args):
         s_motor.forward()
@@ -177,6 +152,7 @@ class Handler:
     def EventLeftEndPoint(self, *args):
         Param.NumberStep = 0
         Param.LEP = 0
+        Param.CurrP= Param.LEP
         pass
 
     def EventRightEndPoint(self, *args):
@@ -197,54 +173,43 @@ class Handler:
         pass
 
     def EventStart(self, *args):
-        PR.Start_(100,1,0)
-
-        # while True:
-        #     if Param.CurrP == Param.LEP:
-        #         s_motor.goto_r(Param.NumberStep)
-        #         Param.CurrP = Param.REP
-        #     else:
-        #         s_motor.goto_l(Param.NumberStep)
-        #         Param.CurrP = Param.LEP
-        #     if Param.Stop == True:
-        #         Param.Stop = False
-        #         PR.Stop_(1)
-        #         break
-        num = multiprocessing.Value('i',Param.CurrP)
+        PR.Start_(100, 1, 0)
+        self.num.value = Param.CurrP
+        arr = multiprocessing.Array('i', range(10))
         self.process.close()
-        self.process=multiprocessing.Process(target=worker, name = "Pr1",args=(num))
+        self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
         self.process.start()
+        log.info("Process started %i",self.process.pid)
         print(process._WorkItem())
 
     def EventStop(self, *args):
         PR.Stop_(1)
         Param.Stop = True
-        if (self.process.is_alive()):
+        if self.process.is_alive():
             self.process.terminate()
-        pass
-
-    def Switch_set(self, *args):
+        Param.CurrP = self.num.value
+        print("currp= {}".format(self.num.value))
+        log.info("Kill process")
         pass
 
     def EventPStep(self, *args):
         pass
 
 
-builder.connect_signals(Handler())
 
 # Param = Parametrs() #Global parametrs of all system
 
 # LabelRevers.set_markup(FONT_STYLE_3 % REVERS_STR)
 
-#LabelSpeed.set_label(RPM_SET_S + str(Param.speed))
+# LabelSpeed.set_label(RPM_SET_S + str(Param.speed))
 # LabelSpeed.set_markup(FONT_STYLE_1 % RPM_SET_S)
 # LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
-#LabelStep.set_label(STEP_S + str(Param.step))
+# LabelStep.set_label(STEP_S + str(Param.step))
 # LabelStep.set_markup(FONT_STYLE_1 % STEP_S)
 # LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
-#LabelRPM_UP.set_label(RPM_UP_S + str(0))
+# LabelRPM_UP.set_label(RPM_UP_S + str(0))
 # LabelRPM_UP.set_markup(FONT_STYLE_1 % RPM_UP_S)
 # LabelRPM_UP_BIG.set_markup(FONT_STYLE_2 % str(0))
 
@@ -268,8 +233,6 @@ builder.connect_signals(Handler())
 # GPIO.setup(19,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button stop
 # GPIO.setup(5,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Holl
 
-window.fullscreen()
-window.show_all()
 
 # try:
 # 	PR.Stop_(1)
@@ -283,9 +246,59 @@ window.show_all()
 
 # GLib.timeout_add(100,buttonIterupt)
 
-Gtk.main()
+
+
+def receive_signal(signum, stack):
+    quit_app('Received system signal: %s' % signal.Signals(signum).name)
+
+
+def quit_app(error=None):
+    global log
+    if 'log' not in globals():
+        log = logging.getLogger("main")
+        log.warning("Logger not found. Enabling standard logger")
+    if error:
+        log.critical(error)
+    try:
+        os.remove(lock_file)
+    except Exception as exc:
+        log.error("Unable to remove lock file: %s" % exc)
+    log.info('Application stopped')
+    sys.exit()
+
+
 
 if __name__ == "__main__":
+
+    Param = Parametrs()  # Global parametrs of all system
+    builder = Gtk.Builder()
+    builder.add_from_file("gui4.glade")
+    builder.connect_signals(Handler())
+
+    LabelStep = builder.get_object("LabelStep")
+    LabelSpeed = builder.get_object("LabelSpeed")
+    LabelTime = builder.get_object("LabelTime")
+    LabelRPM_UP = builder.get_object("LabelRPM_UP")
+    LabelRPM_Down = builder.get_object("LabelRPM_Down")
+    Switch1 = builder.get_object("Switch1")
+    LabelConnect = builder.get_object("LabelConnect")
+    ButtonStart = builder.get_object("ButtonStart")
+    ButtonStop = builder.get_object("ButtonStop")
+    LabelTimeBIG = builder.get_object("LabelTimeBIG")
+    LabelRPM_UP_BIG = builder.get_object("LabelRPM_UP_BIG")
+    LabelRPM_DOWN_BIG = builder.get_object("LabelRPM_DOWN_BIG")
+    LabelStep_ = builder.get_object("LabelStep_")
+    LabelSpeed_ = builder.get_object("LabelSpeed_")
+    LabelDoor = builder.get_object("LabelDoor")
+
+    ButtonToLeft = builder.get_object("toLeft")
+    ButtonToRight = builder.get_object("toRight")
+    ButtonLKT = builder.get_object("leftEndPoint")
+    ButtonRKT = builder.get_object("rightEndPoint")
+
+
+    s_motor = stp.STMotor()
+    num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
     # Change working directory to project directory
     if getattr(sys, 'frozen', False):
@@ -339,7 +352,13 @@ if __name__ == "__main__":
         config_path = args.configpath
         config = {}
         try:
-            config = FileHelper.read_json_file(config_path)
+            # config = FileHelper.read_json_file(config_path)
             log.debug("Config file successfully read")
         except Exception as e:
             quit_app("Unable to read config file: %s" % e)
+    
+
+    window = builder.get_object("win1")
+    window.fullscreen()
+    window.show_all() 
+    Gtk.main()
