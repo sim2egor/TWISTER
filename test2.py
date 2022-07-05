@@ -24,7 +24,7 @@ from gi.repository import Gtk
 #     def onButtonPressed(self, button):
 #         print("Hello World!")
 
-s_motor = stp.STMotor()
+
 
 
 def add_command_option():
@@ -68,33 +68,6 @@ def init_logger(file_dir='./logs/',
         return logger
     except Exception as error:
         raise Exception("Unable to initialize logger: %s" % error)
-
-
-builder = Gtk.Builder()
-builder.add_from_file("gui4.glade")
-
-window = builder.get_object("win1")
-
-LabelStep = builder.get_object("LabelStep")
-LabelSpeed = builder.get_object("LabelSpeed")
-LabelTime = builder.get_object("LabelTime")
-LabelRPM_UP = builder.get_object("LabelRPM_UP")
-LabelRPM_Down = builder.get_object("LabelRPM_Down")
-Switch1 = builder.get_object("Switch1")
-LabelConnect = builder.get_object("LabelConnect")
-ButtonStart = builder.get_object("ButtonStart")
-ButtonStop = builder.get_object("ButtonStop")
-LabelTimeBIG = builder.get_object("LabelTimeBIG")
-LabelRPM_UP_BIG = builder.get_object("LabelRPM_UP_BIG")
-LabelRPM_DOWN_BIG = builder.get_object("LabelRPM_DOWN_BIG")
-LabelStep_ = builder.get_object("LabelStep_")
-LabelSpeed_ = builder.get_object("LabelSpeed_")
-LabelDoor = builder.get_object("LabelDoor")
-
-ButtonToLeft = builder.get_object("toLeft")
-ButtonToRight = builder.get_object("toRight")
-ButtonLKT = builder.get_object("leftEndPoint")
-ButtonRKT = builder.get_object("rightEndPoint")
 
 # Const
 SHAG_STEP = 1
@@ -143,7 +116,6 @@ class Parametrs():
         self.Stop = False
 
 
-Param = Parametrs()  # Global parametrs of all system
 
 
 def worker(num,arr):
@@ -224,7 +196,6 @@ class Handler:
         pass
 
 
-builder.connect_signals(Handler())
 
 # Param = Parametrs() #Global parametrs of all system
 
@@ -262,8 +233,6 @@ builder.connect_signals(Handler())
 # GPIO.setup(19,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button stop
 # GPIO.setup(5,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Holl
 
-window.fullscreen()
-window.show_all()
 
 # try:
 # 	PR.Stop_(1)
@@ -277,7 +246,6 @@ window.show_all()
 
 # GLib.timeout_add(100,buttonIterupt)
 
-Gtk.main()
 
 
 def receive_signal(signum, stack):
@@ -299,7 +267,37 @@ def quit_app(error=None):
     sys.exit()
 
 
+
 if __name__ == "__main__":
+
+    Param = Parametrs()  # Global parametrs of all system
+    builder = Gtk.Builder()
+    builder.add_from_file("gui4.glade")
+    builder.connect_signals(Handler())
+
+    LabelStep = builder.get_object("LabelStep")
+    LabelSpeed = builder.get_object("LabelSpeed")
+    LabelTime = builder.get_object("LabelTime")
+    LabelRPM_UP = builder.get_object("LabelRPM_UP")
+    LabelRPM_Down = builder.get_object("LabelRPM_Down")
+    Switch1 = builder.get_object("Switch1")
+    LabelConnect = builder.get_object("LabelConnect")
+    ButtonStart = builder.get_object("ButtonStart")
+    ButtonStop = builder.get_object("ButtonStop")
+    LabelTimeBIG = builder.get_object("LabelTimeBIG")
+    LabelRPM_UP_BIG = builder.get_object("LabelRPM_UP_BIG")
+    LabelRPM_DOWN_BIG = builder.get_object("LabelRPM_DOWN_BIG")
+    LabelStep_ = builder.get_object("LabelStep_")
+    LabelSpeed_ = builder.get_object("LabelSpeed_")
+    LabelDoor = builder.get_object("LabelDoor")
+
+    ButtonToLeft = builder.get_object("toLeft")
+    ButtonToRight = builder.get_object("toRight")
+    ButtonLKT = builder.get_object("leftEndPoint")
+    ButtonRKT = builder.get_object("rightEndPoint")
+
+
+    s_motor = stp.STMotor()
     num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
     # Change working directory to project directory
@@ -358,3 +356,9 @@ if __name__ == "__main__":
             log.debug("Config file successfully read")
         except Exception as e:
             quit_app("Unable to read config file: %s" % e)
+    
+
+    window = builder.get_object("win1")
+    window.fullscreen()
+    window.show_all() 
+    Gtk.main()
