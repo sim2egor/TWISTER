@@ -176,7 +176,7 @@ class Handler:
         self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
         self.process.start()
         log.info("Process started %i",self.process.pid)
-        print(process._WorkItem())
+        log.info('Process WorkItem %s',self.process._WorkItem())
 
     def EventStop(self, *args):
         #--- PR.Stop_(1)
@@ -184,7 +184,7 @@ class Handler:
         if self.process.is_alive():
             self.process.terminate()
         Param.CurrP = self.num.value
-        print("currp= {}".format(self.num.value))
+        log.info("currp= {}".format(self.num.value))
         log.info("Kill process")
         pass
 
