@@ -120,8 +120,8 @@ class Parametrs():
 
 def worker(num,arr):
     while True:
-        if Param.CurrP == Param.LEP:
-            s_motor.goto_r(Param.NumberStep, num)
+        if Param.CurrP >= Param.LEP:
+            s_motor.goto_r(Param.NumberStep - Param.CurrP, num)
             Param.CurrP = Param.REP
         else:
             s_motor.goto_l(Param.NumberStep, num)
@@ -155,6 +155,7 @@ class Handler:
     def EventRightEndPoint(self, *args):
         Param.REP = Param.NumberStep
         Param.CurrP = Param.NumberStep
+        LabelRP.set_markup(str(Param.REP))
         pass
 
     def onDestroy(self, *args):
@@ -186,6 +187,7 @@ class Handler:
         if self.process.is_alive():
             self.process.terminate()
         Param.CurrP = self.num.value
+        LabelCurPosition.set_markup(str(Param.CurrP))
         log.info("currp= {}".format(self.num.value))
         log.info("Kill process")
         pass
