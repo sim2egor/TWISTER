@@ -149,6 +149,7 @@ class Handler:
         Param.NumberStep = 0
         Param.LEP = 0
         Param.CurrP= Param.LEP
+        LabelLP.set_markup("0")
         pass
 
     def EventRightEndPoint(self, *args):
