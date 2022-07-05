@@ -2,7 +2,7 @@
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
-# -----import pr6100Rs485 as PR
+import pr6100Rs485 as PR
 import logging
 import argparse
 import signal
@@ -126,6 +126,10 @@ def worker(num,arr):
         else:
             s_motor.goto_l(Param.NumberStep, num)
             Param.CurrP = Param.LEP
+        # if Param.Stop == True:
+        #     Param.Stop = False
+        #     PR.Stop_(1)
+        #     break
 
 
 class Handler:
@@ -169,7 +173,7 @@ class Handler:
         pass
 
     def EventStart(self, *args):
-        #--- PR.Start_(100, 1, 0)
+        PR.Start_(100, 1, 0)
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
         self.process.close()
@@ -179,7 +183,7 @@ class Handler:
         print(process._WorkItem())
 
     def EventStop(self, *args):
-        #--- PR.Stop_(1)
+        PR.Stop_(1)
         Param.Stop = True
         if self.process.is_alive():
             self.process.terminate()
@@ -193,7 +197,52 @@ class Handler:
 
 
 
+# Param = Parametrs() #Global parametrs of all system
 
+# LabelRevers.set_markup(FONT_STYLE_3 % REVERS_STR)
+
+# LabelSpeed.set_label(RPM_SET_S + str(Param.speed))
+# LabelSpeed.set_markup(FONT_STYLE_1 % RPM_SET_S)
+# LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
+
+# LabelStep.set_label(STEP_S + str(Param.step))
+# LabelStep.set_markup(FONT_STYLE_1 % STEP_S)
+# LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
+
+# LabelRPM_UP.set_label(RPM_UP_S + str(0))
+# LabelRPM_UP.set_markup(FONT_STYLE_1 % RPM_UP_S)
+# LabelRPM_UP_BIG.set_markup(FONT_STYLE_2 % str(0))
+
+# #LabelRPM_Down.set_label(RPM_DOWN_S + str(0))
+# LabelRPM_Down.set_markup(FONT_STYLE_1 % RPM_DOWN_S)
+# LabelRPM_DOWN_BIG.set_markup(FONT_STYLE_2 % str(0))
+
+# #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+# LabelTime.set_markup(FONT_STYLE_1 % TIME_S)
+# LabelTimeBIG.set_markup(FONT_STYLE_2 % str(datetime.timedelta(seconds=Param.time_)))
+
+# LabelDoor.set_markup(FONT_STYLE_4 % DOOR_OPEN_S)
+
+# #settings = Gtk.Settings.get_default()
+# #settings.set_property("gtk-theme-name", "Natura")
+# #settings.set_property("gtk-application-prefer-dark-theme", True)
+
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setwarnings(False)
+# GPIO.setup(13,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button start
+# GPIO.setup(19,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button stop
+# GPIO.setup(5,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Holl
+
+
+# try:
+# 	PR.Stop_(1)
+# 	PR.Stop_(2)
+# 	Param.connect = True
+# 	LabelConnect.set_markup(FONT_STYLE_3 % CONNECT_ON_S)
+# except Exception as e:
+# 	log.error(e)
+# 	Param.connect = False
+# 	LabelConnect.set_markup(FONT_STYLE_3 % CONNECT_OFF_S)
 
 # GLib.timeout_add(100,buttonIterupt)
 
