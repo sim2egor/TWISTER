@@ -1,5 +1,5 @@
-from concurrent.futures import process
-import PWM_Stepper_Motor_01 as STP
+# from concurrent.futures import process
+import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
 import pr6100Rs485 as PR
@@ -24,7 +24,7 @@ from gi.repository import Gtk
 #     def onButtonPressed(self, button):
 #         print("Hello World!")
 
-s_motor = STP.STMotor()
+s_motor = stp.STMotor()
 
 
 def add_command_option():
