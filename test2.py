@@ -2,6 +2,9 @@ import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
 # -----import pr6100Rs485 as PR
+
+import pr6100Rs485 as PR
+
 import logging
 import argparse
 import signal
@@ -178,6 +181,8 @@ class Handler:
         frqUP = get_freqUp(Param.speed)
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
+        PR.Start_(frqUP, 1, 0)
+
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
         self.process.close()
@@ -189,6 +194,8 @@ class Handler:
 
     def EventStop(self, *args):
         #--- PR.Stop_(1)
+        PR.Stop_(1)
+        
         Param.Stop = True
         if self.process.is_alive():
             self.process.terminate()
