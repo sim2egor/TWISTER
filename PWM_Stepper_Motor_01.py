@@ -144,14 +144,19 @@ class STMotor:
         return
 
 if __name__ == '__main__':
+    class number:
+        value=0
+
     d1=STMotor()
     cycles=d1.cycles
+    num=number()
+    num.value=1
     while d1.cyclecount < d1.cycles:
         #d1.forward()
         #d1.reverse()
-        d1.goto_r(2*40000)
+        d1.goto_r(2*40000,num)
         sleep(2)
-        d1.goto_l(2*40000)
+        d1.goto_l(2*40000,num)
         sleep(2)
         d1.cyclecount = (d1.cyclecount + 1)
         print('Number of cycles completed: ' + str(d1.cyclecount))
