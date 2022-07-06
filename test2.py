@@ -255,6 +255,8 @@ if __name__ == "__main__":
     LabelRP = builder.get_object("LabelRP")
     LabelCurPosition = builder.get_object("LabelCurPosition")
 
+    LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
+    
     s_motor = stp.STMotor()
     num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
