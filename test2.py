@@ -209,7 +209,7 @@ class Handler:
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
         PR.Start_(frqUP, 1, 0)
-        s_motor.delay= PWM_DELAY_DEFAULT*Param.step/STEP_MAX
+        s_motor.delay= PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
