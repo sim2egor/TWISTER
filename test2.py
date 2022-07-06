@@ -25,6 +25,8 @@ from gi.repository import Gtk
 #         print("Hello World!")
 
 
+def get_freqUp(RPM): #RPM for UP Engine to Frequency
+	return int( (RPM/(0.4)) *100)/100
 
 
 def add_command_option():
@@ -162,16 +164,23 @@ class Handler:
         Gtk.main_quit()
 
     def EventMStep(self, *args):
+        Param.speed +=1
+        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
+
         pass
 
     def EventPSpeed(self, *args):
         pass
 
     def EventMSpeed(self, *args):
+        Param.speed -=1
+        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
         pass
 
     def EventStart(self, *args):
-        #--- PR.Start_(100, 1, 0)
+        frqUP = get_freqUp(Param.speed)
+        log.info('set freq = {}'.format(frqUP))
+        #--- PR.Start_(frqUP, 1, 0)
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
         self.process.close()
@@ -256,7 +265,7 @@ if __name__ == "__main__":
     LabelCurPosition = builder.get_object("LabelCurPosition")
 
     LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
-    
+
     s_motor = stp.STMotor()
     num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
