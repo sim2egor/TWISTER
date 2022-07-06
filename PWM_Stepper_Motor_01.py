@@ -48,7 +48,7 @@ class STMotor:
         print('Duration Fwd set to ' + str(self.durationFwd))
         print('Duration Bwd set to ' + str(self.durationBwd))
         #
-        self.delay = 1/(1602*2) #0.00001*2 # This is actualy a delay between PUL pulses - effectively sets the mtor rotation speed.
+        self.delay = 312*10^-6 #0.00001*2 # This is actualy a delay between PUL pulses - effectively sets the mtor rotation speed.
         print('Speed set to ' + str(self.delay))
         #
         self.cycles = 1000 # This is the number of cycles to be run once program is started.
