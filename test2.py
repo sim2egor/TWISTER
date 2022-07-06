@@ -171,11 +171,11 @@ class Handler:
 
     def EventPSpeed(self, *args):
         Param.speed +=1
-        LabelSpeed_.set_markup(str(Param.speed))
+        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventMSpeed(self, *args):
         Param.speed -=1
-        LabelSpeed_.set_markup(str(Param.speed))
+        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventStart(self, *args):
         frqUP = get_freqUp(Param.speed)
@@ -195,7 +195,6 @@ class Handler:
     def EventStop(self, *args):
         #--- PR.Stop_(1)
         PR.Stop_(1)
-
         Param.Stop = True
         if self.process.is_alive():
             self.process.terminate()
