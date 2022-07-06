@@ -121,10 +121,10 @@ class Parametrs():
 def worker(num,arr):
     while True:
         if Param.CurrP == Param.LEP:
-            s_motor.goto_r(Param.NumberStep , num)
+            s_motor.goto_r(Param.REP , num)
             Param.CurrP = Param.REP
         else:
-            s_motor.goto_l(Param.NumberStep, num)
+            s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
 
 
