@@ -79,10 +79,11 @@ SHAG_STEP = 1
 SHAG_SPEED = 1
 
 STEP_MAX = 50
-STEP_MIN = 10
-SPEED_MAX = 8
-SPEED_MIN = SHAG_SPEED
+STEP_MIN = 1
+SPEED_MAX = 25
+SPEED_MIN = 1
 COEFF = 1
+PWM_DELAY_DEFAULT = 0.00002 # This is actualy a delay between PUL pulses - effectively sets the mtor rotation speed.
 # TestMode1 = True ## True - Not sending in rs485, False - all system active
 
 # Strings Const
@@ -121,6 +122,17 @@ class Parametrs():
         self.Stop = False
 
 
+def timeIterupt():
+	if(Param.ActiveMotors):		
+		Param.time_ += 1
+		#LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+		LabelTimeBIG.set_markup(FONT_STYLE_2 % str(datetime.timedelta(seconds=Param.time_)))
+		return True
+	else:
+		Param.time_ = 0
+		#LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+		LabelTimeBIG.set_markup(FONT_STYLE_2 % str(datetime.timedelta(seconds=Param.time_)))
+		return False
 
 
 def worker(num,arr):
@@ -142,10 +154,12 @@ class Handler:
         pass
 
     def EventToLeft(self, *args):
+        s_motor.delay = PWM_DELAY_DEFAULT
         s_motor.forward()
         print("To Left")
 
     def EventToRight(self, *args):
+        s_motor.delay = PWM_DELAY_DEFAULT
         s_motor.reverse()
         Param.NumberStep = Param.NumberStep + 4000
         print("To Right")
@@ -166,15 +180,28 @@ class Handler:
     def onDestroy(self, *args):
         Gtk.main_quit()
 
+    def EventPStep(self, *args):
+        Param.step +=1
+        if Param.step > STEP_MAX:
+            Param.step=STEP_MAX
+        LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
+
     def EventMStep(self, *args):
-        pass
+        Param.step -=1
+        if Param.step < STEP_MIN:
+            Param.step=STEP_MIN
+        LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
     def EventPSpeed(self, *args):
         Param.speed +=1
+        if Param.speed > SPEED_MAX:
+            Param.speed=SPEED_MAX
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventMSpeed(self, *args):
         Param.speed -=1
+        if Param.speed < SPEED_MIN:
+            Param.speed = SPEED_MIN
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventStart(self, *args):
@@ -182,6 +209,7 @@ class Handler:
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
         PR.Start_(frqUP, 1, 0)
+        s_motor.delay= PWM_DELAY_DEFAULT*Param.step/STEP_MAX
 
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
@@ -204,7 +232,7 @@ class Handler:
         log.info("Kill process")
         pass
 
-    def EventPStep(self, *args):
+        
         pass
 
 
