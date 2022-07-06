@@ -1,6 +1,6 @@
 import minimalmodbus as MB
 
-# instrument1 = MB.Instrument('/dev/ttyUSB0', 1) #slave adress 1
+instrument1 = MB.Instrument('/dev/ttyUSB0', 1) #slave adress 1
 #instrument2 = MB.Instrument('/dev/ttyUSB0', 2) #slave2 adress 2
 
 instrument1 = MB.Instrument('/dev/ttyAMA0', 1) #slave adress 1
