@@ -164,18 +164,15 @@ class Handler:
         Gtk.main_quit()
 
     def EventMStep(self, *args):
-        Param.speed +=1
-        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
-
         pass
 
     def EventPSpeed(self, *args):
-        pass
+        Param.speed +=1
+        LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventMSpeed(self, *args):
         Param.speed -=1
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
-        pass
 
     def EventStart(self, *args):
         frqUP = get_freqUp(Param.speed)
@@ -239,8 +236,6 @@ if __name__ == "__main__":
     builder.add_from_file("gui4.glade")
     builder.connect_signals(Handler())
 
-    LabelStep = builder.get_object("LabelStep")
-    LabelSpeed = builder.get_object("LabelSpeed")
     LabelTime = builder.get_object("LabelTime")
     LabelRPM_UP = builder.get_object("LabelRPM_UP")
     LabelRPM_Down = builder.get_object("LabelRPM_Down")
@@ -265,6 +260,7 @@ if __name__ == "__main__":
     LabelCurPosition = builder.get_object("LabelCurPosition")
 
     LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
+    LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
     s_motor = stp.STMotor()
     num = multiprocessing.Value('d', 0.0)
