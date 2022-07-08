@@ -1,3 +1,4 @@
+from gi.repository import Gtk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
@@ -18,7 +19,6 @@ import time
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
 
 # class Handler:
 #     def onDestroy(self, *args):
@@ -28,8 +28,8 @@ from gi.repository import Gtk
 #         print("Hello World!")
 
 
-def get_freqUp(RPM): #RPM for UP Engine to Frequency
-	return int( (RPM/(0.4)) *100)/100
+def get_freqUp(RPM):  # RPM for UP Engine to Frequency
+    return int((RPM/(0.4)) * 100)/100
 
 
 def add_command_option():
@@ -74,6 +74,7 @@ def init_logger(file_dir='./logs/',
     except Exception as error:
         raise Exception("Unable to initialize logger: %s" % error)
 
+
 # Const
 SHAG_STEP = 1
 SHAG_SPEED = 1
@@ -83,7 +84,8 @@ STEP_MIN = 1
 SPEED_MAX = 25
 SPEED_MIN = 1
 COEFF = 1
-PWM_DELAY_DEFAULT = 0.00002 # This is actualy a delay between PUL pulses - effectively sets the mtor rotation speed.
+# This is actualy a delay between PUL pulses - effectively sets the mtor rotation speed.
+PWM_DELAY_DEFAULT = 0.00002
 # TestMode1 = True ## True - Not sending in rs485, False - all system active
 
 # Strings Const
@@ -123,22 +125,24 @@ class Parametrs():
 
 
 def timeIterupt():
-	if(Param.ActiveMotors):		
-		Param.time_ += 1
-		#LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
-		LabelTimeBIG.set_markup(FONT_STYLE_2 % str(datetime.timedelta(seconds=Param.time_)))
-		return True
-	else:
-		Param.time_ = 0
-		#LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
-		LabelTimeBIG.set_markup(FONT_STYLE_2 % str(datetime.timedelta(seconds=Param.time_)))
-		return False
+    if(Param.ActiveMotors):
+        Param.time_ += 1
+        #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+        LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
+            datetime.timedelta(seconds=Param.time_)))
+        return True
+    else:
+        Param.time_ = 0
+        #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+        LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
+            datetime.timedelta(seconds=Param.time_)))
+        return False
 
 
-def worker(num,arr):
+def worker(num, arr):
     while True:
         if Param.CurrP == Param.LEP:
-            s_motor.goto_r(Param.REP , num)
+            s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
         else:
             s_motor.goto_l(Param.CurrP, num)
@@ -147,6 +151,7 @@ def worker(num,arr):
 
 class Handler:
     global log
+
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
@@ -167,7 +172,7 @@ class Handler:
     def EventLeftEndPoint(self, *args):
         Param.NumberStep = 0
         Param.LEP = 0
-        Param.CurrP= Param.LEP
+        Param.CurrP = Param.LEP
         LabelLP.set_markup("0")
         pass
 
@@ -181,25 +186,25 @@ class Handler:
         Gtk.main_quit()
 
     def EventPStep(self, *args):
-        Param.step +=1
+        Param.step += 1
         if Param.step > STEP_MAX:
-            Param.step=STEP_MAX
+            Param.step = STEP_MAX
         LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
     def EventMStep(self, *args):
-        Param.step -=1
+        Param.step -= 1
         if Param.step < STEP_MIN:
-            Param.step=STEP_MIN
+            Param.step = STEP_MIN
         LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
     def EventPSpeed(self, *args):
-        Param.speed +=1
+        Param.speed += 1
         if Param.speed > SPEED_MAX:
-            Param.speed=SPEED_MAX
+            Param.speed = SPEED_MAX
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventMSpeed(self, *args):
-        Param.speed -=1
+        Param.speed -= 1
         if Param.speed < SPEED_MIN:
             Param.speed = SPEED_MIN
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
@@ -209,15 +214,16 @@ class Handler:
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
         PR.Start_(frqUP, 1, 0)
-        s_motor.delay= PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
+        s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
         arr = multiprocessing.Array('i', range(10))
         self.process.close()
-        self.process = multiprocessing.Process(target=worker, name="Pr1", args=(self.num,arr))
+        self.process = multiprocessing.Process(
+            target=worker, name="Pr1", args=(self.num, arr))
         self.process.start()
-        log.info("Process started %i",self.process.pid)
-        log.info('Process WorkItem %s',self.process.name)
+        log.info("Process started %i", self.process.pid)
+        log.info('Process WorkItem %s', self.process.name)
         log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
     def EventStop(self, *args):
@@ -232,15 +238,65 @@ class Handler:
         log.info("Kill process")
         pass
 
-        
         pass
 
 
+def gtk_style():
+    css = b"""
+* {
+    transition-property: color, background-color, border-color, background-image, padding, border-width;
+    transition-duration: 1s;
+    font-family: Cantarell;
+	font-size: 40px;
+}
+GtkWindow {
+    background: linear-gradient(153deg, #151515, #151515 5px, transparent 5px) 0 0,
+                linear-gradient(333deg, #151515, #151515 5px, transparent 5px) 10px 5px,
+                linear-gradient(153deg, #222, #222 5px, transparent 5px) 0 5px,
+                linear-gradient(333deg, #222, #222 5px, transparent 5px) 10px 10px,
+                linear-gradient(90deg, #1b1b1b, #1b1b1b 10px, transparent 10px),
+                linear-gradient(#1d1d1d, #1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+    background-color: #131313;
+    background-size: 20px 20px;
+}
+button {
+    color: black;
+    background-color: #bbb;
+    border-style: solid;
+    border-width: 2px 0 2px 2px;
+    border-color: #333;
+    padding: 12px 4px;
+}
+button:first-child {
+    border-radius: 5px 0 0 5px;
+}
+button:last-child {
+    border-radius: 0 5px 5px 0;
+    border-width: 2px;
+}
+button:hover {
+    padding: 12px 48px;
+    background-color: #4870bc;
+}
+button *:hover {
+    color: white;
+}
+button:hover:active,
+button:active {
+    background-color: #993401;
+}
+        """
+    style_provider = Gtk.CssProvider()
+    style_provider.load_from_data(css)
 
+    Gtk.StyleContext.add_provider_for_screen(
+        Gdk.Screen.get_default(),
+        style_provider,
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+    )
 
 
 # GLib.timeout_add(100,buttonIterupt)
-
 
 
 def receive_signal(signum, stack):
@@ -262,9 +318,9 @@ def quit_app(error=None):
     sys.exit()
 
 
-
 if __name__ == "__main__":
 
+    gtk_style()
     Param = Parametrs()  # Global parametrs of all system
     builder = Gtk.Builder()
     builder.add_from_file("gui4.glade")
@@ -355,9 +411,8 @@ if __name__ == "__main__":
             log.debug("Config file successfully read")
         except Exception as e:
             quit_app("Unable to read config file: %s" % e)
-    
 
     window = builder.get_object("win1")
     window.fullscreen()
-    window.show_all() 
+    window.show_all()
     Gtk.main()
