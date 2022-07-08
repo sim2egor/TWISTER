@@ -191,6 +191,9 @@
                             <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                             <property name="vexpand">True</property>
                             <signal name="clicked" handler="EventPStep" object="LabelStep" swapped="no"/>
+                            <style>
+                              <class name="l-button"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -220,6 +223,9 @@
                             <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                             <property name="vexpand">True</property>
                             <signal name="clicked" handler="EventMStep" object="LabelStep" swapped="no"/>
+                            <style>
+                              <class name="r-button"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -273,6 +279,9 @@
                             <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                             <property name="vexpand">True</property>
                             <signal name="clicked" handler="EventPSpeed" object="LabelSpeed" swapped="no"/>
+                            <style>
+                              <class name="l-button"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -361,6 +370,9 @@
                 <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                 <property name="vexpand">True</property>
                 <signal name="clicked" handler="EventStart" object="LabelTime" swapped="no"/>
+                <style>
+                  <class name="start-stop"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -380,6 +392,10 @@
                 <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                 <property name="vexpand">True</property>
                 <signal name="clicked" handler="EventStop" object="LabelTime" swapped="no"/>
+                <style>
+                  <class name="stop"/>
+                  <class name="start-stop"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">True</property>

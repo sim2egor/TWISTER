@@ -289,6 +289,23 @@ button.r-button{
     	border-top-right-radius: 133px;
         border-bottom-right-radius: 133px;
 }
+button.l-button{
+    	border-top-left-radius: 133px;
+        border-bottom-left-radius: 133px;
+}
+button.start-stop{
+    	border-top-left-radius: 133px;
+        border-bottom-left-radius: 133px;
+    	border-top-right-radius: 133px;
+        border-bottom-right-radius: 133px;
+}
+button.stop{
+    color: white;
+    background-color: #F00;
+}
+
+
+
         """
     style_provider = Gtk.CssProvider()
     style_provider.load_from_data(css)
