@@ -285,6 +285,10 @@ button:hover:active,
 button:active {
     background-color: #993401;
 }
+button.r-button{
+    	border-top-right-radius: 133px;
+        border-bottom-right-radius: 133px;
+}
         """
     style_provider = Gtk.CssProvider()
     style_provider.load_from_data(css)
