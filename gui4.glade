@@ -180,7 +180,6 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">7</property>
                         <child>
                           <object class="GtkButton" id="ButtonP1">
@@ -265,7 +264,6 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">7</property>
                         <child>
                           <object class="GtkButton" id="ButtonP2">
@@ -341,41 +339,27 @@
           </packing>
         </child>
         <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="homogeneous">True</property>
+            <property name="hexpand">True</property>
+            <property name="spacing">30</property>
             <child>
-              <object class="GtkFrame">
+              <object class="GtkButton" id="ButtonStart">
+                <property name="label" translatable="yes">Старт</property>
+                <property name="name">ButtonStart</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="label-xalign">0.5</property>
-                <property name="shadow-type">out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkLabel" id="LabelTimeBIG">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">0:0</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label">
-                  <object class="GtkLabel" id="LabelTime">
-                    <property name="name">LabelTime</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="vexpand">True</property>
-                    <property name="label" translatable="yes">Time 0:00</property>
-                    <property name="justify">center</property>
-                  </object>
-                </child>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                <property name="vexpand">True</property>
+                <signal name="clicked" handler="EventStart" object="LabelTime" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -384,111 +368,25 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFrame">
+              <object class="GtkButton" id="ButtonStop">
+                <property name="label" translatable="yes">Стоп</property>
+                <property name="name">ButtonStop</property>
+                <property name="width-request">-1</property>
+                <property name="height-request">20</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="label-xalign">0.5</property>
-                <property name="shadow-type">out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkLabel" id="LabelRPM_UP_BIG">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">0</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label">
-                  <object class="GtkLabel" id="LabelRPM_UP">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">RPM Up Engine: 0</property>
-                    <property name="justify">center</property>
-                  </object>
-                </child>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                <property name="vexpand">True</property>
+                <signal name="clicked" handler="EventStop" object="LabelTime" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="pack-type">end</property>
                 <property name="position">1</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkFrame">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="label-xalign">0.5</property>
-                <property name="shadow-type">out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkLabel" id="LabelRPM_DOWN_BIG">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">0</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label">
-                  <object class="GtkLabel" id="LabelRPM_Down">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">RPM Down Engine: 0</property>
-                    <property name="justify">center</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="ButtonStart">
-            <property name="label" translatable="yes">Старт</property>
-            <property name="name">ButtonStart</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-            <property name="vexpand">True</property>
-            <signal name="clicked" handler="EventStart" object="LabelTime" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="ButtonStop">
-            <property name="label" translatable="yes">Стоп</property>
-            <property name="name">ButtonStop</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-            <property name="vexpand">True</property>
-            <signal name="clicked" handler="EventStop" object="LabelTime" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -497,43 +395,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="hexpand">True</property>
-            <child>
-              <object class="GtkLabel" id="LabelConnect">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="label" translatable="yes">Connect:</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="LabelDoor">
-                <property name="name">LabelDoor</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="label" translatable="yes">Door</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">6</property>
-          </packing>
+          <placeholder/>
         </child>
       </object>
     </child>
