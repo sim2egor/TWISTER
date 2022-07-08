@@ -302,6 +302,9 @@
                             <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                             <property name="vexpand">True</property>
                             <signal name="clicked" handler="EventMSpeed" object="LabelSpeed" swapped="no"/>
+                            <style>
+                              <class name="r-button"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">True</property>
