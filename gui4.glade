@@ -190,12 +190,10 @@
                             <property name="receives-default">True</property>
                             <property name="events">GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
                             <property name="vexpand">True</property>
-                            <property name="xalign">0.5</property>
-                            <property name="yalign">0.5</property>
                             <signal name="clicked" handler="EventPStep" object="LabelStep" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -224,7 +222,7 @@
                             <signal name="clicked" handler="EventMStep" object="LabelStep" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">2</property>
                           </packing>
@@ -277,7 +275,7 @@
                             <signal name="clicked" handler="EventPSpeed" object="LabelSpeed" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -306,7 +304,7 @@
                             <signal name="clicked" handler="EventMSpeed" object="LabelSpeed" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">2</property>
                           </packing>
@@ -362,7 +360,7 @@
                 <signal name="clicked" handler="EventStart" object="LabelTime" swapped="no"/>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -381,7 +379,7 @@
                 <signal name="clicked" handler="EventStop" object="LabelTime" swapped="no"/>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="pack-type">end</property>
                 <property name="position">1</property>
