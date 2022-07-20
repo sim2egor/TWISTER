@@ -1,3 +1,4 @@
+from ast import match_case
 from gi.repository import GLib, Gtk, GObject, Gdk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
@@ -180,9 +181,19 @@ class Handler:
         print("To Left")
 
     def EventToRight(self, *args):
-        s_motor.delay = PWM_DELAY_DEFAULT
-        s_motor.reverse()
-        Param.NumberStep = Param.NumberStep + 4000
+        # s_motor.delay = PWM_DELAY_DEFAULT
+        # s_motor.reverse()
+        # Param.NumberStep = Param.NumberStep + 4000
+
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
+        self.process.close()
+        self.process = multiprocessing.Process(
+            target= s_motor.go_r, name="Pr_R", args=(self.num, self.arr))
+        self.process.start()
+        log.info("Process Pr_R started %i", self.process.pid)
+        log.info('Process WorkItem %s', self.process.name)
+        log.info('CPU num {}'.format(multiprocessing.cpu_count()))
         print("To Right")
 
     def EventLeftEndPoint(self, *args):
@@ -252,20 +263,29 @@ class Handler:
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
             log.info("Stop button %s".format(self.process.name))
-            if self.process.name == "Pr_L":
-                self.arr[0] = 1
-                self.process.join() # ждём завершения процесса
-                self.num.value =0
-                Param.CurrP = 0
-                Param.NumberStep = 0
-            self.process.terminate()
-        Param.CurrP = self.num.value
-        LabelCurPosition.set_markup(str(Param.CurrP))
-        log.info("currp= {}".format(self.num.value))
-        log.info("Kill process")
-        pass
-
-        pass
+            match self.process.name:
+                case "Pr_l":
+                    self.arr[0] = 1
+                    self.process.join() # ждём завершения процесса
+                    self.num.value =0
+                    Param.CurrP = 0
+                    Param.NumberStep = 0
+                case "Pr_R":
+                    self.arr[0] = 1
+                    self.process.join() # ждём завершения процесса
+                    self.num.value =0
+                    Param.CurrP = self.num.value
+                    Param.NumberStep = self.num.value
+                    pass
+                case "Pr1":
+                    self.process.terminate()
+                    Param.CurrP = self.num.value
+                    LabelCurPosition.set_markup(str(Param.CurrP))
+                    log.info("currp= {}".format(self.num.value))
+                    log.info("Kill process")
+                case _:
+                    log.info("Unexpected proc name %s".format(self.process.name))
+                    self.process.terminate()
 
 
 def gtk_style():
