@@ -246,8 +246,8 @@ class Handler:
         #--- PR.Stop_(1)
         try:
             PR.Stop_(1)
-        except Exception :
-            log.info(Exception)
+        except Exception as inst :
+            log.info(type(inst))
         Param.Stop = True
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
