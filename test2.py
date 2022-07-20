@@ -165,17 +165,17 @@ class Handler:
     
 
     def EventToLeft(self, *args):
-        s_motor.delay = PWM_DELAY_DEFAULT
-        s_motor.forward()
-        # self.num.value = Param.CurrP
-        # self.arr = multiprocessing.Array('i', range(10))
-        # self.process.close()
-        # self.process = multiprocessing.Process(
-        #     target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
-        # self.process.start()
-        # log.info("Process Pr_L started %i", self.process.pid)
-        # log.info('Process WorkItem %s', self.process.name)
-        # log.info('CPU num {}'.format(multiprocessing.cpu_count()))
+        # s_motor.delay = PWM_DELAY_DEFAULT
+        # s_motor.forward()
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
+        self.process.close()
+        self.process = multiprocessing.Process(
+            target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
+        self.process.start()
+        log.info("Process Pr_L started %i", self.process.pid)
+        log.info('Process WorkItem %s', self.process.name)
+        log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
         print("To Left")
 
@@ -244,7 +244,7 @@ class Handler:
 
     def EventStop(self, *args):
         #--- PR.Stop_(1)
-        PR.Stop_(1)
+        # PR.Stop_(1)
         Param.Stop = True
         log.info('Stop button process name %s'.format(self.process.name()))
         if self.process.is_alive():
