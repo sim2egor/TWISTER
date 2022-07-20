@@ -249,7 +249,7 @@ class Handler:
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
             log.info("Stop button %s".format(self.process.name))
-            if self.process.name() == "Pr_L":
+            if self.process.name == "Pr_L":
                 self.arr[0] = 1
                 self.process.join() # ждём завершения процесса
                 self.num.value =0
