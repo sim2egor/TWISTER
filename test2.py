@@ -244,7 +244,10 @@ class Handler:
 
     def EventStop(self, *args):
         #--- PR.Stop_(1)
-        # PR.Stop_(1)
+        try:
+            PR.Stop_(1)
+        except Exception :
+            log.info(Exception)
         Param.Stop = True
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
