@@ -171,7 +171,7 @@ class Handler:
         self.arr = multiprocessing.Array('i', range(10))
         self.process.close()
         self.process = multiprocessing.Process(
-            target= touch_l, name="Pr_L", args=(self.num, self.arr))
+            target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
         self.process.start()
         log.info("Process Pr_L started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
