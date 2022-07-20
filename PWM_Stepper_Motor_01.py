@@ -146,6 +146,50 @@ class STMotor:
         print('ENA set to LOW - Controller Disabled')
         sleep(.5) # pause for possible change direction
         return
+    def go_r(self,num,arr):
+        GPIO.output(self.ENA, GPIO.HIGH)
+        # GPIO.output(ENAI, GPIO.HIGH)
+        print('ENA set to HIGH - Controller Enabled')
+        #
+        sleep(.5) # pause due to a possible change direction
+        GPIO.output(self.DIR, GPIO.HIGH)
+        # GPIO.output(DIRI, GPIO.HIGH)
+        print('DIR set to HIGH - Moving Backward at ' + str(self.delay))
+        print('Controller PUL being driven.')
+        #
+        while arr[0] == 0:
+            num.value =num.value+1
+            GPIO.output(self.PUL, GPIO.HIGH)
+            sleep(self.delay)
+            GPIO.output(self.PUL, GPIO.LOW)
+            sleep(self.delay)
+        GPIO.output(self.ENA, GPIO.LOW)
+        # GPIO.output(ENAI, GPIO.LOW)
+        print('ENA set to LOW - Controller Disabled')
+        sleep(.5) # pause for possible change direction
+        return
+    def go_l(self,num,arr):
+        GPIO.output(self.ENA, GPIO.HIGH)
+        # GPIO.output(ENAI, GPIO.HIGH)
+        print('ENA set to HIGH - Controller Enabled')
+        #
+        sleep(.5) # pause due to a possible change direction
+        GPIO.output(self.DIR, GPIO.LOW)
+        # GPIO.output(DIRI, GPIO.HIGH)
+        print('DIR set to HIGH - Moving Backward at ' + str(self.delay))
+        print('Controller PUL being driven.')
+        #
+        while arr[0]==0:
+            num.value =num.value+1
+            GPIO.output(self.PUL, GPIO.HIGH)
+            sleep(self.delay)
+            GPIO.output(self.PUL, GPIO.LOW)
+            sleep(self.delay)
+        GPIO.output(self.ENA, GPIO.LOW)
+        # GPIO.output(ENAI, GPIO.LOW)
+        print('ENA set to LOW - Controller Disabled')
+        sleep(.5) # pause for possible change direction
+        return
 
 if __name__ == '__main__':
     class number:

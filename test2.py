@@ -148,6 +148,9 @@ def worker(num, arr):
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
 
+def touch_l(num,arr):
+    s_motor.go_l()
+
 
 class Handler:
     global log
@@ -158,9 +161,22 @@ class Handler:
 
         pass
 
+
+    
+
     def EventToLeft(self, *args):
-        s_motor.delay = PWM_DELAY_DEFAULT
-        s_motor.forward()
+        # s_motor.delay = PWM_DELAY_DEFAULT
+        # s_motor.forward()
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
+        self.process.close()
+        self.process = multiprocessing.Process(
+            target= touch_l, name="Pr_L", args=(self.num, self.arr))
+        self.process.start()
+        log.info("Process Pr_L started %i", self.process.pid)
+        log.info('Process WorkItem %s', self.process.name)
+        log.info('CPU num {}'.format(multiprocessing.cpu_count()))
+
         print("To Left")
 
     def EventToRight(self, *args):
@@ -217,10 +233,10 @@ class Handler:
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
-        arr = multiprocessing.Array('i', range(10))
+        self.arr = multiprocessing.Array('i', range(10))
         self.process.close()
         self.process = multiprocessing.Process(
-            target=worker, name="Pr1", args=(self.num, arr))
+            target=worker, name="Pr1", args=(self.num, self.arr))
         self.process.start()
         log.info("Process started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
@@ -231,6 +247,12 @@ class Handler:
         PR.Stop_(1)
         Param.Stop = True
         if self.process.is_alive():
+            if self.process.name() == "Pr_L":
+                self.arr[0] = 1
+                self.process.join() # ждём завершения процесса
+                self.num.value =0
+                Param.CurrP = 0
+                Param.NumberStep = 0
             self.process.terminate()
         Param.CurrP = self.num.value
         LabelCurPosition.set_markup(str(Param.CurrP))
