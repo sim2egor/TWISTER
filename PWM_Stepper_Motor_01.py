@@ -168,7 +168,6 @@ class STMotor:
         print('ENA set to LOW - Controller Disabled')
         sleep(.5) # pause for possible change direction
         return
-        
     def go_l(self,num,arr):
         GPIO.output(self.ENA, GPIO.HIGH)
         # GPIO.output(ENAI, GPIO.HIGH)
