@@ -149,7 +149,7 @@ def worker(num, arr):
             Param.CurrP = Param.LEP
 
 def touch_l(num,arr):
-    s_motor.go_l()
+    s_motor.go_l(num,arr)
 
 
 class Handler:
