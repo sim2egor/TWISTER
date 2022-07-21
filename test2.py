@@ -273,7 +273,6 @@ class Handler:
                 case "Pr_R":
                     self.arr[0] = 1
                     self.process.join() # ждём завершения процесса
-                    self.num.value =0
                     Param.CurrP = self.num.value
                     Param.NumberStep = self.num.value
                     pass
