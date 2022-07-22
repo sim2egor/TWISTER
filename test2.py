@@ -263,28 +263,27 @@ class Handler:
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
             log.info("Stop button %s".format(self.process.name))
-            match self.process.name:
-                case "Pr_l":
-                    self.arr[0] = 1
-                    self.process.join() # ждём завершения процесса
-                    self.num.value =0
-                    Param.CurrP = 0
-                    Param.NumberStep = 0
-                case "Pr_R":
-                    self.arr[0] = 1
-                    self.process.join() # ждём завершения процесса
-                    Param.CurrP = self.num.value
-                    Param.NumberStep = self.num.value
-                    pass
-                case "Pr1":
-                    self.process.terminate()
-                    Param.CurrP = self.num.value
-                    LabelCurPosition.set_markup(str(Param.CurrP))
-                    log.info("currp= {}".format(self.num.value))
-                    log.info("Kill process")
-                case _:
-                    log.info("Unexpected proc name %s".format(self.process.name))
-                    self.process.terminate()
+            if (self.process.name  == "Pr_l"):
+                self.arr[0] = 1
+                self.process.join() # ждём завершения процесса
+                self.num.value =0
+                Param.CurrP = 0
+                Param.NumberStep = 0
+            elif (self.process.name  == "Pr_l"):
+                self.arr[0] = 1
+                self.process.join() # ждём завершения процесса
+                Param.CurrP = self.num.value
+                Param.NumberStep = self.num.value
+                pass
+            elif (self.process.name  == "Pr1"):
+                self.process.terminate()
+                Param.CurrP = self.num.value
+                LabelCurPosition.set_markup(str(Param.CurrP))
+                log.info("currp= {}".format(self.num.value))
+                log.info("Kill process")
+            else:
+                log.info("Unexpected proc name %s".format(self.process.name))
+                self.process.terminate()
 
 
 def gtk_style():
