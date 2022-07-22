@@ -295,7 +295,7 @@ class Handler:
         self.num.value = Param.CurrP
         self.arr = multiprocessing.Array('i', range(10))
         self.arr[1]=int(Param.NumLayer)
-        GLib.timeout_add(200, timeIterupt)
+        # GLib.timeout_add(200, timeIterupt)
         self.process.close()
         self.process = multiprocessing.Process(
             target=worker, name="Pr1", args=(self.num, self.arr))
@@ -430,7 +430,7 @@ button.stop{
     )
 
 
-# GLib.timeout_add(100,buttonIterupt)
+GLib.timeout_add(100,timeIterupt)
 
 
 def receive_signal(signum, stack):
