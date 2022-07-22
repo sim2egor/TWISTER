@@ -157,8 +157,8 @@ class Parametrs():
 
 
 def timeIterupt():
-    print(arr[1])
-    LabelCount.set_markup(FONT_STYLE_2%str(arr[1]))
+    print(Param.CurrLayer)
+    LabelCount.set_markup(FONT_STYLE_2%str(Param.CurrLayer))
     return True
 
     # if(Param.ActiveMotors):
@@ -191,7 +191,7 @@ def worker(num, arr):
             Param.CurrLayer=layer
             if (layer <=0):
                 break
-    log.info('Curr num layer %s'.format(layer))
+    log.info('Curr num layer %s'.format(str(layer)))
 
 
 def touch_l(num,arr):
