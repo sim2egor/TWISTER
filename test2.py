@@ -105,6 +105,35 @@ FONT_STYLE_2 = "<span font_desc='Tahoma 45'>%s</span>"
 FONT_STYLE_3 = "<span font_desc='Tahoma 20'>%s</span>"
 FONT_STYLE_4 = "<span font_desc='Tahoma 20' foreground='red'>%s</span>"
 
+class Handler2:
+    global Param
+    def numeric_handler(self, button):
+        pass
+        print(str(button.get_toplevel().lblResult.get_label()).find('.'))
+        if str(button.get_toplevel().lblResult.get_label()).find('.') >= 0 and str(button.get_label()) == '.':
+            return
+        button.get_toplevel().lblResult.set_text(button.get_toplevel().lblResult.get_label() + button.get_label())
+        print(button.get_label())
+    def onButtonPressed(self,button):
+        print("Hello kjkjkkkk!")
+        pass
+    def button_del_handler(self, button):
+        button.get_toplevel().lblResult.set_text(button.get_toplevel().lblResult.get_label()[0:-1])
+        print('Del pressed')
+    def button_enter_handler(self, button):
+        global set1
+        nn=button.get_toplevel().lblResult.get_label()
+        button.get_toplevel().buttonresult.set_label(nn)
+        Param.NumLayer=nn
+        w=button.get_toplevel()
+        Gtk.Window.destroy(w)
+        print('Enter pressed')
+    def quit_form_handler(self, button):
+        w=button.get_toplevel()
+        ww=w.get_toplevel()
+        Gtk.Window.destroy(w)
+        print('That\'s button')
+
 
 class Parametrs():
     def __init__(self, step=STEP_MIN, speed=SPEED_MIN, time=0, ActiveMotors=False, FWD=True, time_=0, connect=False):
@@ -123,6 +152,7 @@ class Parametrs():
         self.LEP = 0
         self.CurrP = 0
         self.Stop = False
+        self.NumLayer=0
 
 
 def timeIterupt():
@@ -284,6 +314,19 @@ class Handler:
             else:
                 log.info("Unexpected proc name %s".format(self.process.name))
                 self.process.terminate()
+    
+    
+    def on_ButtonCnt_clicked(self):
+        builder.add_from_file('inp1.glade')
+        builder.connect_signals(Handler2())
+        self.win2 = builder.get_object('calcWindow')
+        self.win2.lblResult = builder.get_object('lblResult')
+        self.win2.buttonresult=builder.get_object('ButtonCnt')
+
+        self.win2.show_all()
+        # self.update_ui()
+        print("Button 2")
+
 
 
 def gtk_style():

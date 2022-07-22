@@ -374,6 +374,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_ButtonCnt_clicked" swapped="no"/>
                 <style>
                   <class name="btn_cnt"/>
                 </style>
