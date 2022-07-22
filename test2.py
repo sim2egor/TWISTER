@@ -171,7 +171,7 @@ def timeIterupt():
 
 
 def worker(num, arr):
-    layer=in(Param.NumLayer)
+    layer=int(Param.NumLayer)
     while True:
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
