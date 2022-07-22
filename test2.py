@@ -316,7 +316,7 @@ class Handler:
                 self.process.terminate()
     
     
-    def on_ButtonCnt_clicked(self):
+    def on_ButtonCnt_clicked(self,*arg):
         builder.add_from_file('inp1.glade')
         builder.connect_signals(Handler2())
         self.win2 = builder.get_object('calcWindow')
