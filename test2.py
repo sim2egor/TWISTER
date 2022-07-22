@@ -156,6 +156,7 @@ class Parametrs():
 
 
 def timeIterupt():
+    print('Hop!')
     LabelCount.set_markup(FONT_STYLE_2%str(Handler.get_Layer()))
 
     # if(Param.ActiveMotors):
