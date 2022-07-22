@@ -279,7 +279,11 @@ class Handler:
         frqUP = get_freqUp(Param.speed)
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
-        PR.Start_(frqUP, 1, 0)
+        try:
+            PR.Start_(frqUP, 1, 0)
+        except: Exception:
+            log.info(Exception)
+            
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
