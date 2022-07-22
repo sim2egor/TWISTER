@@ -196,8 +196,10 @@ def touch_l(num,arr):
     s_motor.go_l(num,arr)
 
 
-global num = multiprocessing.Value('i', 0)
-global arr = multiprocessing.Array('i', range(10))
+global num
+num = multiprocessing.Value('i', 0)
+global arr
+arr = multiprocessing.Array('i', range(10))
 
 class Handler:
     global log
