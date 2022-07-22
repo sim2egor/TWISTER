@@ -1,5 +1,6 @@
 
 from gi.repository import GLib, Gtk, GObject, Gdk
+from numpy import int256
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
@@ -28,6 +29,9 @@ gi.require_version("Gtk", "3.0")
 #     def onButtonPressed(self, button):
 #         print("Hello World!")
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(26,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button start
 
 def get_freqUp(RPM):  # RPM for UP Engine to Frequency
     return int((RPM/(0.4)) * 100)/100
@@ -157,8 +161,11 @@ class Parametrs():
 
 
 def timeIterupt():
-    print(Param.CurrLayer)
-    LabelCount.set_markup(FONT_STYLE_2%str(Param.CurrLayer))
+    # print(Param.CurrLayer)
+    # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
+    in26 = GPIO.input(26)
+    print('GPIO = %s'.format(in26))
+    
     return True
 
     # if(Param.ActiveMotors):
@@ -489,7 +496,7 @@ if __name__ == "__main__":
     LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
 
     s_motor = stp.STMotor()
-    num = multiprocessing.Value('d', 0.0)
+    # num = multiprocessing.Value('d', 0.0)
     lock_file = "/tmp/app_lock.lock"
     # Change working directory to project directory
     if getattr(sys, 'frozen', False):
@@ -551,5 +558,5 @@ if __name__ == "__main__":
     window = builder.get_object("win1")
     window.fullscreen()
     window.show_all()
-    GLib.timeout_add(100,timeIterupt)
+    GLib.timeout_add(1000,timeIterupt)
     Gtk.main()
