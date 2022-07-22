@@ -331,8 +331,8 @@ button:active {
     background-color: #993401;
 }
 button.btn_cnt{
-    min-height:40;
-    min-width:120;
+    min-height:40px;
+    min-width:120px;
 }
 button.r-button{
     	border-top-right-radius: 133px;
