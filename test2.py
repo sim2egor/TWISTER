@@ -156,6 +156,7 @@ class Parametrs():
 
 
 def timeIterupt():
+
     if(Param.ActiveMotors):
         Param.time_ += 1
         #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
@@ -168,21 +169,23 @@ def timeIterupt():
         LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
             datetime.timedelta(seconds=Param.time_)))
         return False
-
+    LabelCount.set_markup(FONT_STYLE_2%str(Handler.get_Layer()))
 
 def worker(num, arr):
-    layer=int(Param.NumLayer)
+    layer=arr[1]
     while True:
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
             layer=layer-1
+            arr[1]=arr[1]-1
             if (layer <=0):
                 break
         else:
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
             layer=layer-1
+            arr[1]=arr[1]-1
             if (layer <=0):
                 break
     log.info('Curr num layer %s'.format(layer))
@@ -202,7 +205,8 @@ class Handler:
         pass
 
 
-    
+    def get_Layer(self):
+        return self.arr[1]
 
     def EventToLeft(self, *args):
         # s_motor.delay = PWM_DELAY_DEFAULT
@@ -474,6 +478,7 @@ if __name__ == "__main__":
     LabelLP = builder.get_object("LabelLP")
     LabelRP = builder.get_object("LabelRP")
     LabelCurPosition = builder.get_object("LabelCurPosition")
+    LabelCount = builder.get_object("LabelCount")
 
     LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
     LabelStep_.set_markup(FONT_STYLE_2 % str(Param.step))
