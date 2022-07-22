@@ -295,7 +295,7 @@ class Handler:
         self.num.value = Param.CurrP
         self.arr = multiprocessing.Array('i', range(10))
         self.arr[1]=int(Param.NumLayer)
-        GObject.timeout_add(200, timeIterupt)
+        GLib.timeout_add(200, timeIterupt)
         self.process.close()
         self.process = multiprocessing.Process(
             target=worker, name="Pr1", args=(self.num, self.arr))
