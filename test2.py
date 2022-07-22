@@ -159,7 +159,7 @@ class Parametrs():
 def timeIterupt():
     print('Hop!')
     LabelCount.set_markup(FONT_STYLE_2%str(Param.CurrLayer))
-    return False
+    return True
 
     # if(Param.ActiveMotors):
     #     Param.time_ += 1
