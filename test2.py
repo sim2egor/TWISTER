@@ -153,11 +153,12 @@ class Parametrs():
         self.CurrP = 0
         self.Stop = False
         self.NumLayer=0
+        self.CurrLayer=0
 
 
 def timeIterupt():
     print('Hop!')
-    LabelCount.set_markup(FONT_STYLE_2%str(arr[1]))
+    LabelCount.set_markup(FONT_STYLE_2%str(Param.CurrLayer))
 
     # if(Param.ActiveMotors):
     #     Param.time_ += 1
@@ -179,14 +180,14 @@ def worker(num, arr):
             s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
             layer=layer-1
-            arr[1]=arr[1]-1
+            Param.CurrLayer=layer
             if (layer <=0):
                 break
         else:
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
             layer=layer-1
-            arr[1]=arr[1]-1
+            Param.CurrLayer=layer
             if (layer <=0):
                 break
     log.info('Curr num layer %s'.format(layer))
@@ -196,31 +197,27 @@ def touch_l(num,arr):
     s_motor.go_l(num,arr)
 
 
-global num
-num = multiprocessing.Value('i', 0)
-global arr
-arr = multiprocessing.Array('i', range(10))
-
 class Handler:
     global log
 
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
+        self.num = multiprocessing.Value('i', 0)
 
         pass
 
 
     def get_Layer(self):
-        return arr[1]
+        return self.arr[1]
 
     def EventToLeft(self, *args):
         # s_motor.delay = PWM_DELAY_DEFAULT
         # s_motor.forward()
-        num.value = Param.CurrP
-        arr = multiprocessing.Array('i', range(10))
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
         self.process.close()
         self.process = multiprocessing.Process(
-            target= s_motor.go_l, name="Pr_L", args=(num, arr))
+            target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
         self.process.start()
         log.info("Process Pr_L started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
@@ -233,11 +230,11 @@ class Handler:
         # s_motor.reverse()
         # Param.NumberStep = Param.NumberStep + 4000
 
-        num.value = Param.CurrP
-        arr = multiprocessing.Array('i', range(10))
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
         self.process.close()
         self.process = multiprocessing.Process(
-            target= s_motor.go_r, name="Pr_R", args=(num, arr))
+            target= s_motor.go_r, name="Pr_R", args=(self.num, self.arr))
         self.process.start()
         log.info("Process Pr_R started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
@@ -295,13 +292,13 @@ class Handler:
 
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
-        num.value = Param.CurrP
-        arr = multiprocessing.Array('i', range(10))
-        arr[1]=int(Param.NumLayer)
+        self.num.value = Param.CurrP
+        self.arr = multiprocessing.Array('i', range(10))
+        self.arr[1]=int(Param.NumLayer)
         GObject.timeout_add(200, timeIterupt)
         self.process.close()
         self.process = multiprocessing.Process(
-            target=worker, name="Pr1", args=(num, arr))
+            target=worker, name="Pr1", args=(self.num, self.arr))
         self.process.start()
         log.info("Process started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
@@ -318,22 +315,22 @@ class Handler:
         if self.process.is_alive():
             log.info("Stop button %s".format(self.process.name))
             if (self.process.name  == "Pr_L"):
-                arr[0] = 1
+                self.arr[0] = 1
                 self.process.join() # ждём завершения процесса
-                num.value =0
+                self.num.value =0
                 Param.CurrP = 0
                 Param.NumberStep = 0
             elif (self.process.name  == "Pr_R"):
-                arr[0] = 1
+                self.arr[0] = 1
                 self.process.join() # ждём завершения процесса
-                Param.CurrP = num.value
-                Param.NumberStep = num.value
+                Param.CurrP = self.num.value
+                Param.NumberStep = self.num.value
                 pass
             elif (self.process.name  == "Pr1"):
                 self.process.terminate()
-                Param.CurrP = num.value
+                Param.CurrP = self.num.value
                 LabelCurPosition.set_markup(str(Param.CurrP))
-                log.info("currp= {}".format(num.value))
+                log.info("currp= {}".format(self.num.value))
                 log.info("Kill process")
             else:
                 log.info("Unexpected proc name %s".format(self.process.name))
