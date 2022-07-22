@@ -431,7 +431,7 @@ button.stop{
     )
 
 
-GLib.timeout_add(100,timeIterupt)
+# GLib.timeout_add(100,timeIterupt)
 
 
 def receive_signal(signum, stack):
@@ -551,4 +551,5 @@ if __name__ == "__main__":
     window = builder.get_object("win1")
     window.fullscreen()
     window.show_all()
+    GLib.timeout_add(100,timeIterupt)
     Gtk.main()
