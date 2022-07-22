@@ -171,7 +171,7 @@ def timeIterupt():
 
 
 def worker(num, arr):
-    layer=Param.NumLayer
+    layer=in(Param.NumLayer)
     while True:
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
@@ -185,7 +185,7 @@ def worker(num, arr):
             layer=layer-1
             if (layer <=0):
                 break
-    
+    log.info('Curr num layer %s'.format(layer))
 
 
 def touch_l(num,arr):
