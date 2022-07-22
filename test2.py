@@ -156,20 +156,20 @@ class Parametrs():
 
 
 def timeIterupt():
-
-    if(Param.ActiveMotors):
-        Param.time_ += 1
-        #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
-        LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
-            datetime.timedelta(seconds=Param.time_)))
-        return True
-    else:
-        Param.time_ = 0
-        #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
-        LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
-            datetime.timedelta(seconds=Param.time_)))
-        return False
     LabelCount.set_markup(FONT_STYLE_2%str(Handler.get_Layer()))
+
+    # if(Param.ActiveMotors):
+    #     Param.time_ += 1
+    #     #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+    #     LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
+    #         datetime.timedelta(seconds=Param.time_)))
+    #     return True
+    # else:
+    #     Param.time_ = 0
+    #     #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
+    #     LabelTimeBIG.set_markup(FONT_STYLE_2 % str(
+    #         datetime.timedelta(seconds=Param.time_)))
+    #     return False
 
 def worker(num, arr):
     layer=arr[1]
