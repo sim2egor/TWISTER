@@ -368,11 +368,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btnCountLayer">
+              <object class="GtkButton" id="ButtonCnt">
                 <property name="label" translatable="yes">0</property>
+                <property name="name">ButtonCnt</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <style>
+                  <class name="btn_cnt"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>

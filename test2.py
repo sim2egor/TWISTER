@@ -330,6 +330,10 @@ button:hover:active,
 button:active {
     background-color: #993401;
 }
+button.btn_cnt{
+    height-request:20;
+    width-request:60;
+}
 button.r-button{
     	border-top-right-radius: 133px;
         border-bottom-right-radius: 133px;
