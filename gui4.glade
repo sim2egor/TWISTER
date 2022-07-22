@@ -242,7 +242,7 @@
                     <property name="name">LabelStep</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Step: 2 мм</property>
+                    <property name="label" translatable="yes">Шаг каретки</property>
                     <property name="justify">center</property>
                   </object>
                 </child>
@@ -330,7 +330,7 @@
                     <property name="name">LabelSpeed</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">RPM Up Engine: 1</property>
+                    <property name="label" translatable="yes">Об. в мин.</property>
                     <property name="justify">center</property>
                   </object>
                 </child>
@@ -360,6 +360,7 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Слои</property>
               </object>
               <packing>
                 <property name="expand">False</property>
