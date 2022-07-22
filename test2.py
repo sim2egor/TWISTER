@@ -171,13 +171,22 @@ def timeIterupt():
 
 
 def worker(num, arr):
+    layer=Param.NumLayer
     while True:
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
+            layer=layer-1
+            if (layer <=0):
+                break
         else:
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
+            layer=layer-1
+            if (layer <=0):
+                break
+    
+
 
 def touch_l(num,arr):
     s_motor.go_l(num,arr)
