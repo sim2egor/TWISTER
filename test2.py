@@ -1,6 +1,5 @@
 
 from gi.repository import GLib, Gtk, GObject, Gdk
-from numpy import int256
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
 import datetime
