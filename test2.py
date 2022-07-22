@@ -163,7 +163,7 @@ def timeIterupt():
     # print(Param.CurrLayer)
     # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
     in26 = GPIO.input(26)
-    print('GPIO = %s'.format(in26))
+    print('GPIO = {}'.format(in26))
     
     return True
 
