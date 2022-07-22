@@ -322,7 +322,7 @@ class Handler:
         self.win2 = builder.get_object('calcWindow')
         self.win2.lblResult = builder.get_object('lblResult')
         self.win2.buttonresult=builder.get_object('ButtonCnt')
-
+        self.win2.fullscreen()
         self.win2.show_all()
         # self.update_ui()
         print("Button 2")
