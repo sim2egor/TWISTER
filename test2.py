@@ -281,9 +281,9 @@ class Handler:
         #--- PR.Start_(frqUP, 1, 0)
         try:
             PR.Start_(frqUP, 1, 0)
-        except: Exception:
+        except Exception:
             log.info(Exception)
-            
+
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
