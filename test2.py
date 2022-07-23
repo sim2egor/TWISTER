@@ -207,11 +207,11 @@ class Handler:
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
         pass
 
-    def timeIterupt(self):
+    def timeIterupt(self,p=26):
         # print(Param.CurrLayer)
         print("Pin changed")
         # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
-        in26 = GPIO.input(self.pin)
+        in26 = GPIO.input(p)
         print('GPIO = {}'.format(in26))
         # window.emit()
         if (in26 == 0):
