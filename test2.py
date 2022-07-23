@@ -199,7 +199,7 @@ def worker(num, arr):
             Param.CurrLayer=layer
             if (layer <=0):
                 break
-    log.info('Curr num layer %s'.format(str(layer)))
+    log.info('Curr num layer {}'.format(str(layer)))
 
 
 def touch_l(num,arr):
