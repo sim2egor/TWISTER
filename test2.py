@@ -212,14 +212,18 @@ class Handler:
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
-        GLib.timeout_add(1000,self.timeIterupt)
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
 
         pass
 
-    def timeIterupt(self):
+    def timeIterupt(self,pin=26):
         # print(Param.CurrLayer)
+        print("Pin changed")
         # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
-        in26 = GPIO.input(26)
+        in26 = GPIO.input(pin)
         print('GPIO = {}'.format(in26))
         # window.emit()
         self.EventStop()
