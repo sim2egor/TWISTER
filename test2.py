@@ -1,4 +1,5 @@
 
+from typing_extensions import Self
 from gi.repository import GLib, Gtk, GObject, Gdk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
@@ -212,9 +213,17 @@ class Handler:
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
+        GLib.timeout_add(1000,self.timeIterupt)
 
         pass
 
+    def timeIterupt(self):
+        # print(Param.CurrLayer)
+        # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
+        in26 = GPIO.input(26)
+        print('GPIO = {}'.format(in26))
+        # window.emit()
+        self.EventStop()
 
     def get_Layer(self):
         return self.arr[1]
@@ -559,5 +568,5 @@ if __name__ == "__main__":
     window = builder.get_object("win1")
     window.fullscreen()
     window.show_all()
-    GLib.timeout_add(1000,timeIterupt)
+    # GLib.timeout_add(1000,timeIterupt)
     Gtk.main()
