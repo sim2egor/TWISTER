@@ -197,24 +197,24 @@ def touch_l(num,arr):
 
 class Handler:
     global log
-
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
+        self.pin = 26
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
         pass
 
-    def timeIterupt(self,pin=26):
+    def timeIterupt(self):
         # print(Param.CurrLayer)
         print("Pin changed")
         # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
-        in26 = GPIO.input(pin)
+        in26 = GPIO.input(self.pin)
         print('GPIO = {}'.format(in26))
         # window.emit()
-        if (in26 != 1):
+        if (in26 == 0):
             self.EventStop()
             print("Пропала проволка {}".format(in26))
 
@@ -293,8 +293,8 @@ class Handler:
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventStart(self, *args):
-        if (GPIO.input(pin) == 0):
-            print("нет провода {}".format(GPIO.input(pin)))
+        if (GPIO.input(self.pin) == 0):
+            print("нет провода {}".format(GPIO.input(self.pin)))
             return
         frqUP = get_freqUp(Param.speed)
         log.info('set freq = {}'.format(frqUP))
