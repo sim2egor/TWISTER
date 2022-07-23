@@ -158,17 +158,6 @@ class Parametrs():
         self.NumLayer=0
         self.CurrLayer=0
 
-
-def timeIterupt():
-    # print(Param.CurrLayer)
-    # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
-    in26 = GPIO.input(26)
-    print('GPIO = {}'.format(in26))
-    # window.emit()
-    Handler.EventStop()
-    
-    return True
-
     # if(Param.ActiveMotors):
     #     Param.time_ += 1
     #     #LabelTime.set_label(TIME_S + str(datetime.timedelta(seconds=Param.time_)))
@@ -216,7 +205,6 @@ class Handler:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
-
         pass
 
     def timeIterupt(self,pin=26):
@@ -226,7 +214,9 @@ class Handler:
         in26 = GPIO.input(pin)
         print('GPIO = {}'.format(in26))
         # window.emit()
-        self.EventStop()
+        if (in26 != 1):
+            self.EventStop()
+            print("Пропала проволка {}".format(in26))
 
     def get_Layer(self):
         return self.arr[1]
@@ -240,8 +230,8 @@ class Handler:
         self.process = multiprocessing.Process(
             target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
         self.process.start()
-        log.info("Process Pr_L started %i", self.process.pid)
-        log.info('Process WorkItem %s', self.process.name)
+        log.info("Process Pr_L started {}", self.process.pid)
+        log.info('Process WorkItem {}', self.process.name)
         log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
         print("To Left")
@@ -303,6 +293,9 @@ class Handler:
         LabelSpeed_.set_markup(FONT_STYLE_2 % str(Param.speed))
 
     def EventStart(self, *args):
+        if (GPIO.input(pin) == 0):
+            print("нет провода {}".format(GPIO.input(pin)))
+            return
         frqUP = get_freqUp(Param.speed)
         log.info('set freq = {}'.format(frqUP))
         #--- PR.Start_(frqUP, 1, 0)
