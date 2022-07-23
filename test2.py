@@ -164,6 +164,8 @@ def timeIterupt():
     # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
     in26 = GPIO.input(26)
     print('GPIO = {}'.format(in26))
+    # window.emit()
+    Handler.EventStop()
     
     return True
 
