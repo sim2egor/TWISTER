@@ -174,18 +174,19 @@ class Parametrs():
 def worker(num, arr):
     layer=arr[1]
     while True:
+        arr[1]=layer
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
             layer=layer-1
-            Param.CurrLayer=layer
+            arr[1]=layer
             if (layer <=0):
                 break
         else:
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
             layer=layer-1
-            Param.CurrLayer=layer
+            arr[1] = layer
             if (layer <=0):
                 break
     log.info('Curr num layer {}'.format(str(layer)))
@@ -205,7 +206,11 @@ class Handler:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
+        GLib.timeout_add(1000,self.updateLabel)
         pass
+
+    def updateLabel(self):
+        LabelCount.set_markup(self.arr[1])
 
     def timeIterupt(self,p=26):
         # print(Param.CurrLayer)
