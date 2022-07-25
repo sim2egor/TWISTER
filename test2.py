@@ -210,7 +210,9 @@ class Handler:
         pass
 
     def updateLabel(self):
+        print('Hop!')
         LabelCount.set_markup(self.arr[1])
+        return True
 
     def timeIterupt(self,p=26):
         # print(Param.CurrLayer)
