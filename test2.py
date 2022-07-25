@@ -201,6 +201,7 @@ class Handler:
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
+        self.arr = multiprocessing.Array('i', range(10))
         self.pin = 26
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -314,7 +315,7 @@ class Handler:
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
-        self.arr = multiprocessing.Array('i', range(10))
+        self.arr[0]=0
         self.arr[1]=int(Param.NumLayer)
         # GLib.timeout_add(200, timeIterupt)
         self.process.close()
