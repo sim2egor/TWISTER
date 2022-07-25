@@ -201,6 +201,9 @@ class Handler:
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
+        # arr[] control array
+        # arr[0] -start-stop 0-start 1 stop
+        # arr[1] -number of layer to end
         self.arr = multiprocessing.Array('i', range(10))
         self.pin = 26
         GPIO.setwarnings(False)
@@ -233,7 +236,7 @@ class Handler:
         # s_motor.delay = PWM_DELAY_DEFAULT
         # s_motor.forward()
         self.num.value = Param.CurrP
-        self.arr = multiprocessing.Array('i', range(10))
+        self.arr[0] = 0
         self.process.close()
         self.process = multiprocessing.Process(
             target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
@@ -250,7 +253,7 @@ class Handler:
         # Param.NumberStep = Param.NumberStep + 4000
 
         self.num.value = Param.CurrP
-        self.arr = multiprocessing.Array('i', range(10))
+        self.arr[0] = 0
         self.process.close()
         self.process = multiprocessing.Process(
             target= s_motor.go_r, name="Pr_R", args=(self.num, self.arr))
