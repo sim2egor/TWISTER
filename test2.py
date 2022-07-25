@@ -212,7 +212,7 @@ class Handler:
 
     def updateLabel(self):
         print('Hop!')
-        LabelCount.set_markup(self.arr[1])
+        LabelCount.set_markup(str(self.arr[1]))
         return True
 
     def timeIterupt(self,p=26):
