@@ -381,7 +381,7 @@ def gtk_style():
     transition-property: color, background-color, border-color, background-image, padding, border-width;
     transition-duration: 1s;
     font-family: Cantarell;
-	font-size: 40px;
+	font-size: 30px;
 }
 GtkWindow {
     background: linear-gradient(153deg, #151515, #151515 5px, transparent 5px) 0 0,
@@ -420,7 +420,7 @@ button:active {
     background-color: #993401;
 }
 button.btn_cnt{
-    min-height:80px;
+    min-height:10px;
     min-width:80px;
 }
 button.r-button{
