@@ -4,9 +4,8 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="win1">
     <property name="can-focus">False</property>
-    <property name="default-width">800</property>
+    <property name="default-width">640</property>
     <property name="default-height">480</property>
-
     <signal name="destroy" handler="onDestroy" swapped="no"/>
     <child>
       <object class="GtkBox" id="gb1">
@@ -14,8 +13,8 @@
         <property name="can-focus">False</property>
         <property name="margin-left">30</property>
         <property name="margin-right">30</property>
-        <property name="margin-top">30</property>
-        <property name="margin-bottom">30</property>
+        <property name="margin-top">5</property>
+        <property name="margin-bottom">5</property>
         <property name="orientation">vertical</property>
         <property name="spacing">30</property>
         <child>
@@ -352,9 +351,6 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -463,9 +459,6 @@
             <property name="fill">True</property>
             <property name="position">5</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
     </child>
