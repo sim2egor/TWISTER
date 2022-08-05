@@ -1,4 +1,4 @@
-# ver 1.0
+# ver 0.2.0
 from gi.repository import GLib, Gtk, GObject, Gdk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
