@@ -330,11 +330,6 @@ class Handler:
         log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
     def EventStop(self, *args):
-        #--- PR.Stop_(1)
-        try:
-            PR.Stop_(1)
-        except Exception as inst :
-            log.info(type(inst))
         Param.Stop = True
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
@@ -360,6 +355,11 @@ class Handler:
             else:
                 log.info("Unexpected proc name %s".format(self.process.name))
                 self.process.terminate()
+        #--- PR.Stop_(1)
+        try:
+            PR.Stop_(1)
+        except Exception as inst :
+            log.info(type(inst))
     
     
     def on_ButtonCnt_clicked(self,*arg):
