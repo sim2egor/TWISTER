@@ -420,8 +420,8 @@ button:active {
     background-color: #993401;
 }
 button.btn_cnt{
-    min-height:120px;
-    min-width:120px;
+    min-height:80px;
+    min-width:80px;
 }
 button.r-button{
     	border-top-right-radius: 133px;
