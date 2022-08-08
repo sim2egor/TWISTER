@@ -192,6 +192,7 @@ def worker(num, arr):
     log.info('Curr num layer {}'.format(str(layer)))
 
 
+
 def touch_l(num,arr):
     s_motor.go_l(num,arr)
 
@@ -214,8 +215,9 @@ class Handler:
         pass
 
     def updateLabel(self):
-        print('Hop!')
         LabelCount.set_markup(str(self.arr[1]))
+        if self.arr[1]==0:
+            self.EventStop
         return True
 
     def timeIterupt(self,p=26):
