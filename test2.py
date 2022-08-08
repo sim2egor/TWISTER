@@ -1,5 +1,4 @@
 # ver 0.2.0
-from pickle import STOP
 from gi.repository import GLib, Gtk, GObject, Gdk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
