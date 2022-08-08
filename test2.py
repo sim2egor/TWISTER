@@ -217,7 +217,7 @@ class Handler:
     def updateLabel(self):
         LabelCount.set_markup(str(self.arr[1]))
         if self.arr[1]==0:
-            self.EventStop
+            self.EventStop()
         return True
 
     def timeIterupt(self,p=26):
@@ -327,8 +327,8 @@ class Handler:
         self.process = multiprocessing.Process(
             target=worker, name="Pr1", args=(self.num, self.arr))
         self.process.start()
-        log.info("Process started %i", self.process.pid)
-        log.info('Process WorkItem %s', self.process.name)
+        log.info("Process started {}", self.process.pid)
+        log.info('Process WorkItem {}', self.process.name)
         log.info('CPU num {}'.format(multiprocessing.cpu_count()))
 
     def EventStop(self, *args):
