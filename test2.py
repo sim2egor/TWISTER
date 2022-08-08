@@ -211,7 +211,7 @@ class Handler:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
-        GLib.timeout_add(1000,self.updateLabel)
+        GLib.timeout_add(200,self.updateLabel)
         pass
 
     def updateLabel(self):
