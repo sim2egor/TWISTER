@@ -30,8 +30,7 @@ gi.require_version("Gtk", "3.0")
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Button start
-
+GPIO.setup(26,GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button start
 
 def get_freqUp(RPM):  # RPM for UP Engine to Frequency
     return int((RPM/(0.4)) * 100)/100
@@ -109,40 +108,32 @@ FONT_STYLE_2 = "<span font_desc='Tahoma 45'>%s</span>"
 FONT_STYLE_3 = "<span font_desc='Tahoma 20'>%s</span>"
 FONT_STYLE_4 = "<span font_desc='Tahoma 20' foreground='red'>%s</span>"
 
-
 class Handler2:
     global Param
-
     def numeric_handler(self, button):
         pass
         print(str(button.get_toplevel().lblResult.get_label()).find('.'))
         if str(button.get_toplevel().lblResult.get_label()).find('.') >= 0 and str(button.get_label()) == '.':
             return
-        button.get_toplevel().lblResult.set_text(
-            button.get_toplevel().lblResult.get_label() + button.get_label())
+        button.get_toplevel().lblResult.set_text(button.get_toplevel().lblResult.get_label() + button.get_label())
         print(button.get_label())
-
-    def onButtonPressed(self, button):
+    def onButtonPressed(self,button):
         print("Hello kjkjkkkk!")
         pass
-
     def button_del_handler(self, button):
-        button.get_toplevel().lblResult.set_text(
-            button.get_toplevel().lblResult.get_label()[0:-1])
+        button.get_toplevel().lblResult.set_text(button.get_toplevel().lblResult.get_label()[0:-1])
         print('Del pressed')
-
     def button_enter_handler(self, button):
         global set1
-        nn = button.get_toplevel().lblResult.get_label()
+        nn=button.get_toplevel().lblResult.get_label()
         button.get_toplevel().buttonresult.set_label(nn)
-        Param.NumLayer = nn
-        w = button.get_toplevel()
+        Param.NumLayer=nn
+        w=button.get_toplevel()
         Gtk.Window.destroy(w)
         print('Enter pressed')
-
     def quit_form_handler(self, button):
-        w = button.get_toplevel()
-        ww = w.get_toplevel()
+        w=button.get_toplevel()
+        ww=w.get_toplevel()
         Gtk.Window.destroy(w)
         print('That\'s button')
 
@@ -164,8 +155,8 @@ class Parametrs():
         self.LEP = 0
         self.CurrP = 0
         self.Stop = False
-        self.NumLayer = 0
-        self.CurrLayer = 0
+        self.NumLayer=0
+        self.CurrLayer=0
 
     # if(Param.ActiveMotors):
     #     Param.time_ += 1
@@ -180,35 +171,34 @@ class Parametrs():
     #         datetime.timedelta(seconds=Param.time_)))
     #     return False
 
-
 def worker(num, arr):
-    layer = arr[1]
+    layer=arr[1]
     while True:
-        arr[1] = layer
+        arr[1]=layer
         if Param.CurrP == Param.LEP:
             s_motor.goto_r(Param.REP, num)
             Param.CurrP = Param.REP
-            layer = layer-1
-            arr[1] = layer
-            if (layer <= 0):
+            layer=layer-1
+            arr[1]=layer
+            if (layer <=0):
                 break
         else:
             s_motor.goto_l(Param.CurrP, num)
             Param.CurrP = Param.LEP
-            layer = layer-1
+            layer=layer-1
             arr[1] = layer
-            if (layer <= 0):
+            if (layer <=0):
                 break
     log.info('Curr num layer {}'.format(str(layer)))
 
 
-def touch_l(num, arr):
-    s_motor.go_l(num, arr)
+
+def touch_l(num,arr):
+    s_motor.go_l(num,arr)
 
 
 class Handler:
     global log
-
     def __init__(self) -> None:
         self.process = multiprocessing.Process(target=worker, name="Pr1")
         self.num = multiprocessing.Value('i', 0)
@@ -220,19 +210,18 @@ class Handler:
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(
-            26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
-        GLib.timeout_add(200, self.updateLabel)
+        GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
+        GLib.timeout_add(200,self.updateLabel)
         pass
 
     def updateLabel(self):
         LabelCount.set_markup(str(self.arr[1]))
-        if (self.arr[1] == 0) & (Param.Stop == False):
+        if (self.arr[1] == 0)  & (Param.Stop == False):
             print('arr[1] = {}'.format(self.arr[1]))
             self.EventStop()
         return True
 
-    def timeIterupt(self, p=26):
+    def timeIterupt(self,p=26):
         # print(Param.CurrLayer)
         print("Pin changed")
         # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
@@ -253,7 +242,7 @@ class Handler:
         self.arr[0] = 0
         self.process.close()
         self.process = multiprocessing.Process(
-            target=s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
+            target= s_motor.go_l, name="Pr_L", args=(self.num, self.arr))
         self.process.start()
         log.info("Process Pr_L started {}", self.process.pid)
         log.info('Process WorkItem {}', self.process.name)
@@ -270,7 +259,7 @@ class Handler:
         self.arr[0] = 0
         self.process.close()
         self.process = multiprocessing.Process(
-            target=s_motor.go_r, name="Pr_R", args=(self.num, self.arr))
+            target= s_motor.go_r, name="Pr_R", args=(self.num, self.arr))
         self.process.start()
         log.info("Process Pr_R started %i", self.process.pid)
         log.info('Process WorkItem %s', self.process.name)
@@ -333,8 +322,8 @@ class Handler:
         s_motor.delay = PWM_DELAY_DEFAULT/(Param.step/STEP_MAX)
 
         self.num.value = Param.CurrP
-        self.arr[0] = 0
-        self.arr[1] = int(Param.NumLayer)
+        self.arr[0]=0
+        self.arr[1]=int(Param.NumLayer)
         # GLib.timeout_add(200, timeIterupt)
         self.process.close()
         self.process = multiprocessing.Process(
@@ -349,19 +338,19 @@ class Handler:
         log.info('Stop button process name %s'.format(self.process.name))
         if self.process.is_alive():
             log.info("Stop button %s".format(self.process.name))
-            if (self.process.name == "Pr_L"):
+            if (self.process.name  == "Pr_L"):
                 self.arr[0] = 1
-                self.process.join()  # ждём завершения процесса
-                self.num.value = 0
+                self.process.join() # ждём завершения процесса
+                self.num.value =0
                 Param.CurrP = 0
                 Param.NumberStep = 0
-            elif (self.process.name == "Pr_R"):
+            elif (self.process.name  == "Pr_R"):
                 self.arr[0] = 1
-                self.process.join()  # ждём завершения процесса
+                self.process.join() # ждём завершения процесса
                 Param.CurrP = self.num.value
                 Param.NumberStep = self.num.value
                 pass
-            elif (self.process.name == "Pr1"):
+            elif (self.process.name  == "Pr1"):
                 self.process.terminate()
                 Param.CurrP = self.num.value
                 LabelCurPosition.set_markup(str(Param.CurrP))
@@ -373,19 +362,21 @@ class Handler:
         #--- PR.Stop_(1)
         try:
             PR.Stop_(1)
-        except Exception as inst:
+        except Exception as inst :
             log.info(type(inst))
-
-    def on_ButtonCnt_clicked(self, *arg):
+    
+    
+    def on_ButtonCnt_clicked(self,*arg):
         builder.add_from_file('inp1.glade')
         builder.connect_signals(Handler2())
         self.win2 = builder.get_object('calcWindow')
         self.win2.lblResult = builder.get_object('lblResult')
-        self.win2.buttonresult = builder.get_object('ButtonCnt')
+        self.win2.buttonresult=builder.get_object('ButtonCnt')
         self.win2.fullscreen()
         self.win2.show_all()
         # self.update_ui()
         print("Button 2")
+
 
 
 def gtk_style():
