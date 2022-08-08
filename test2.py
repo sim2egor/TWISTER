@@ -217,6 +217,7 @@ class Handler:
     def updateLabel(self):
         LabelCount.set_markup(str(self.arr[1]))
         if self.arr[1]==0:
+            print('arr[1] = {}'.format(self.arr[1]))
             self.EventStop()
         return True
 
