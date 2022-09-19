@@ -377,7 +377,8 @@ class Handler:
         # self.update_ui()
         print("Button 2")
     def on_BtnEnaClick(self,*arg):
-        print("Check btn {}".format(ButtonEnaCheck.get_data()))
+        btn=builder.get_objects('BtnEnaCheck')
+        print("Check btn {}".format(btn.get_active()))
         pass
 
 
