@@ -212,6 +212,7 @@ class Handler:
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(26, GPIO.FALLING, self.timeIterupt, bouncetime=300)
         GLib.timeout_add(200,self.updateLabel)
+        self.flagEnaCheckWire = True
         pass
 
     def updateLabel(self):
@@ -510,6 +511,7 @@ if __name__ == "__main__":
     ButtonLKT = builder.get_object("leftEndPoint")
     ButtonRKT = builder.get_object("rightEndPoint")
     ButtonEnaCheck = builder.get_object("BtnEnaCheck")
+    ButtonEnaCheck.set_active(True)
 
     LabelLP = builder.get_object("LabelLP")
     LabelRP = builder.get_object("LabelRP")
