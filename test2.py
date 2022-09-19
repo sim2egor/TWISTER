@@ -206,7 +206,7 @@ class Handler:
         # arr[0] -start-stop 0-start 1 stop
         # arr[1] -number of layer to end
         self.arr = multiprocessing.Array('i', range(10))
-        self.pin = 26
+        self.pin = 26 #Датчик наличия проволки
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -376,7 +376,8 @@ class Handler:
         self.win2.show_all()
         # self.update_ui()
         print("Button 2")
-
+    def on_BtnEnaClick(self,*arg):
+        pass
 
 
 def gtk_style():
@@ -507,6 +508,7 @@ if __name__ == "__main__":
     ButtonToRight = builder.get_object("toRight")
     ButtonLKT = builder.get_object("leftEndPoint")
     ButtonRKT = builder.get_object("rightEndPoint")
+    ButtonEnaCheck = builder.get_object("BtnEnaCheck")
 
     LabelLP = builder.get_object("LabelLP")
     LabelRP = builder.get_object("LabelRP")
