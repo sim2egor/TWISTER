@@ -383,7 +383,7 @@ class Handler:
         print("Button 2")
     def on_BtnEnaClick(self,*arg):
         self.flagEnaCheckWire = ButtonEnaCheck.get_active()
-        log.info("Check btn {}".format(ButtonEnaCheck.get_active()))
+        log.info('Check btn {}'.format(ButtonEnaCheck.get_active()))
         pass
 
 
