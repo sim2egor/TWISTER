@@ -1,4 +1,5 @@
 # ver 0.2.0
+from ast import If
 from gi.repository import GLib, Gtk, GObject, Gdk
 import PWM_Stepper_Motor_01 as stp
 import RPi.GPIO as GPIO
@@ -222,16 +223,19 @@ class Handler:
             self.EventStop()
         return True
 
+
     def timeIterupt(self,p=26):
         # print(Param.CurrLayer)
         print("Pin changed")
         # LabelCount.(FONT_STYLE_2%str(Param.CurrLayer))
-        in26 = GPIO.input(p)
-        print('GPIO = {}'.format(in26))
-        # window.emit()
-        if (in26 == 0):
-            self.EventStop()
-            print("Пропала проволка {}".format(in26))
+        if(self.flagEnaCheckWire):
+            in26 = GPIO.input(p)
+            print('GPIO = {}'.format(in26))
+            # window.emit()
+            if (in26 == 0):
+                self.EventStop()
+                print("Пропала проволка {}".format(in26))
+        return True
 
     def get_Layer(self):
         return self.arr[1]
@@ -378,7 +382,8 @@ class Handler:
         # self.update_ui()
         print("Button 2")
     def on_BtnEnaClick(self,*arg):
-        print("Check btn {}".format(ButtonEnaCheck.get_active()))
+        self.flagEnaCheckWire = ButtonEnaCheck.get_active()
+        log.info("Check btn {}".format(ButtonEnaCheck.get_active()))
         pass
 
 
