@@ -193,7 +193,6 @@ def worker(num, arr):
     log.info('Curr num layer {}'.format(str(layer)))
 
 
-
 def touch_l(num,arr):
     s_motor.go_l(num,arr)
 
